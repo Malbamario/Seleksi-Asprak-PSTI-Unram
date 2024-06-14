@@ -35,7 +35,7 @@
                         $execute=$konek->query($query);
                         if ($execute->num_rows > 0){
                             while ($data=$execute->fetch_array(MYSQLI_ASSOC)){
-                           if ($pilih==$data[id_jenisbarang]) {
+                           if ($pilih==$data['id_jenisbarang']) {
                                 $selected="selected";
                             }else{
                                 $selected=null;

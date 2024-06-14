@@ -328,7 +328,9 @@ body#login {
 
 #panel-login {
   width: 350px;
-  z-index: 2; }
+  z-index: 2; 
+  margin: 0.83em 0 0 0em;
+}
 
 #hiasan {
   position: absolute;
@@ -338,7 +340,13 @@ body#login {
   z-index: 1; }
 
 #logo-login {
-  margin-bottom: 30px; }
+  margin-bottom: 0.83em;
+  width: 8%;
+}
+
+#logo-title{
+  margin: 0 0 0.83em 0em;
+}
 
 #bg {
   text-align: center;

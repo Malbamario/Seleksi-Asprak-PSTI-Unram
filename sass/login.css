@@ -338,7 +338,9 @@ body#login {
   z-index: 1; }
 
 #logo-login {
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  width: 50%;
+}
 
 #bg {
   text-align: center;

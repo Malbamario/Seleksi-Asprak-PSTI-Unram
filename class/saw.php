@@ -21,10 +21,10 @@ class saw {
     //mendapatkan kriteria
     public function getKriteria(){
         $data=array();
-        $querykriteria="SELECT namaKriteria FROM kriteria";//query tabel kriteria
+        $querykriteria="SELECT * FROM kriteria";//query tabel kriteria
         $execute=$this->getConnect()->query($querykriteria);
         while ($row=$execute->fetch_array(MYSQLI_ASSOC)) {
-            array_push($data,$row['namaKriteria']);
+            array_push($data,$row);
         }
         return $data;
     }
@@ -40,7 +40,7 @@ class saw {
     }
     public function getNilaiMatriks($id_supplier){
         $data=array();
-        $queryGetNilai="SELECT nilai_kriteria.nilai AS nilai,kriteria.sifat AS sifat,nilai_supplier.id_kriteria AS id_kriteria FROM nilai_supplier JOIN kriteria ON kriteria.id_kriteria=nilai_supplier.id_kriteria JOIN nilai_kriteria ON nilai_kriteria.id_nilaikriteria=nilai_supplier.id_nilaikriteria WHERE (id_jenisbarang='$this->idCookie' AND id_supplier='$id_supplier')";
+        $queryGetNilai="SELECT nilai_kriteria.nilai AS nilai, kriteria.sifat AS sifat, nilai_supplier.id_kriteria AS id_kriteria FROM nilai_supplier JOIN kriteria ON kriteria.id_kriteria=nilai_supplier.id_kriteria JOIN nilai_kriteria ON nilai_kriteria.id_nilaikriteria=nilai_supplier.id_nilaikriteria WHERE (id_jenisbarang='$this->idCookie' AND id_supplier='$id_supplier')";
         $execute=$this->getConnect()->query($queryGetNilai);
         while ($row=$execute->fetch_array(MYSQLI_ASSOC)) {
             array_push($data,array(

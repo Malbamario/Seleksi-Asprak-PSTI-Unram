@@ -1,18 +1,30 @@
 <?php
+require __DIR__.'/class/vendor/autoload.php';
+use Dompdf\Dompdf;
+
 session_start();
 ob_start();
 ?>
-<page>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cetak Laporan Harian</title>
     <style>
         *{
             padding: 0;
             margin: 0;
         }
+        body{
+            margin: 1cm;
+        }
         #header{
             width: 100%;
-            padding: 10px;
+            padding: 0 0 10px 0;
             margin-bottom: 10px;
-            border:solid 2px black;
+            border-bottom:solid 2px black;
             text-align: center;
         }
         .text-underline{
@@ -42,6 +54,8 @@ table {
   table tr#data:nth-child(odd) {
     background-color: #f2f2f2; }
     </style>
+    </head>
+    <body>
     <div id="header">
         <h4>Sistem Pendukung Keputusan Pemilihan Supplier</h4>
         <h2>CV. BIMANTARA</h2>
@@ -57,11 +71,13 @@ table {
     <page_footer>
         <i style="font-size:9pt;">dicetak oleh <b><?php echo $_SESSION['user'];  ?></b></i>
     </page_footer>
-</page>
+    </body>
+</html>
 <?php
 $content=ob_get_clean();
-require __DIR__.'/class/vendor/autoload.php';
-use Spipu\Html2Pdf\Html2Pdf;
-$pdf=new Html2Pdf();
-$pdf->writeHTML($content);
-$pdf->output();
+// print_r(gettype($content));
+$pdf = new Dompdf();
+$pdf->loadHtml($content);
+$pdf->setPaper('A4');
+$pdf->render();
+$pdf->stream();
