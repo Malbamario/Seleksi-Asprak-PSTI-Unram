@@ -13,7 +13,7 @@
     <div class="panel-top">
         <div style="float:left;width: 300px;">
             <select class="form-custom" name="pilih"  id="pilihHasil">
-                <option disabled selected value="">-- Pilih Jenis Barang --</option>;
+                <option disabled selected value="0">-- Pilih Jenis Barang --</option>;
                 <?php
                 $query="SELECT*FROM jenis_barang";
                 $execute=$konek->query($query);

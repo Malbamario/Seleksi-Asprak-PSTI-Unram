@@ -22,10 +22,6 @@ switch ($op){
         $query="DELETE FROM kriteria WHERE id_kriteria='$id'";
         $crud->delete($query,$konek);
         break;
-    case 'subkriteria':
-        $query="DELETE FROM nilai_kriteria WHERE id_nilaikriteria='$id'";
-        $crud->delete($query,$konek);
-        break;
     case 'bobot':
         $query="DELETE FROM bobot_kriteria WHERE id_jenisbarang='$id'";
         $crud->delete($query,$konek);

@@ -30,11 +30,6 @@ switch ($op){
         $query="UPDATE kriteria SET namaKriteria='$kriteria',sifat='$sifat' WHERE id_kriteria='$id';";
         $crud->multiUpdate($cek,$query,$konek,'./?page=kriteria');
         break;
-    case 'subkriteria':
-        $cek="SELECT id_nilaikriteria FROM nilai_kriteria WHERE (id_kriteria='$kriteria' AND nilai ='$nilai') OR (id_kriteria='$kriteria' AND keterangan = '$keterangan')";
-        $query="UPDATE nilai_kriteria SET id_kriteria='$kriteria',nilai='$nilai',keterangan='$keterangan' WHERE id_nilaikriteria='$id'";
-        $crud->multiUpdate($cek,$query,$konek,'./?page=subkriteria');
-        break;
     case 'bobot':
         $query=null;
         for ($i=0;$i<count($id);$i++){
@@ -45,7 +40,7 @@ switch ($op){
     case 'nilai':
         $query=null;
         for ($i=0;$i<count($id);$i++){
-            $query.="UPDATE nilai_supplier SET id_nilaikriteria='$nilai[$i]' WHERE id_nilaisupplier='$id[$i]';";
+            $query.="UPDATE nilai_supplier SET nilai='$nilai[$i]' WHERE id_nilaisupplier='$id[$i]';";
         }
         $crud->update($query,$konek,'./?page=penilaian');
     break;

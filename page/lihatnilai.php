@@ -1,9 +1,8 @@
 <?php
 $a=htmlspecialchars(@$_GET['a']);
 $b=htmlspecialchars(@$_GET['b']);
-$querylihat="SELECT id_nilaisupplier,kriteria.namaKriteria AS namaKriteria,nilai_kriteria.keterangan AS keterangan FROM nilai_supplier
+$querylihat="SELECT id_nilaisupplier,kriteria.namaKriteria AS namaKriteria,nilai FROM nilai_supplier
 INNER JOIN kriteria USING (id_kriteria)
-INNER JOIN nilai_kriteria USING (id_nilaikriteria)
 WHERE nilai_supplier.id_supplier='$a' AND nilai_supplier.id_jenisbarang='$b'";
 $execute2=$konek->query($querylihat);
 if ($execute2->num_rows == 0){
@@ -43,7 +42,7 @@ if ($execute2->num_rows == 0){
         while($data2=$execute2->fetch_array(MYSQLI_ASSOC)){
             echo "<div class=\"group-input\">
                         <label for=\"\">$data2[namaKriteria]</label>
-                        <input class=\"form-custom\" value=\"$data2[keterangan]\" disabled type=\"text\" autocomplete=\"off\" required name=\"bobot[]\">
+                        <input class=\"form-custom\" value=\"$data2[nilai]\" disabled type=\"text\" autocomplete=\"off\" required name=\"bobot[]\">
                       </div>
                 ";
         }

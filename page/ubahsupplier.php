@@ -1,10 +1,10 @@
 <?php
-$id=htmlspecialchars(@$_GET['id']);
-$query="SELECT * FROM supplier WHERE id_supplier='$id'";
-$execute=$konek->query($query);
-if ($execute->num_rows > 0){
-    $data=$execute->fetch_array(MYSQLI_ASSOC);
-}else{
+$id = htmlspecialchars(@$_GET['id']);
+$query = "SELECT * FROM supplier WHERE id_supplier='$id'";
+$execute = $konek->query($query);
+if ($execute->num_rows > 0) {
+    $data = $execute->fetch_array(MYSQLI_ASSOC);
+} else {
     header('location:./?page=supplier');
 }
 ?>
@@ -16,8 +16,8 @@ if ($execute->num_rows > 0){
     <input type="hidden" name="id" value="<?php echo $data['id_supplier']; ?>">
     <div class="panel-middle">
         <div class="group-input">
-            <label for="supplier" >Nama Supplier :</label>
-            <input type="text" value="<?php echo $data['namaSupplier']; ?>" class="form-custom" required autocomplete="off" placeholder="Nama Supplier" id="supplier" name="supplier">
+            <label for="supplier">Nama Mahasiswa :</label>
+            <input type="text" value="<?php echo $data['namaSupplier']; ?>" class="form-custom" required autocomplete="off" placeholder="Nama Mahasiswa" id="supplier" name="supplier">
         </div>
     </div>
     <div class="panel-bottom">

@@ -6,59 +6,38 @@
     <input type="hidden" value="nilai" name="op">
     <div class="panel-middle">
         <div class="group-input">
-            <label for="supplier">Supplier</label>
-            <select class="form-custom" required name="supplier" id="supplier">
-                <option selected disabled>--Pilih Supplier--</option>
+            <label for="barang">Jenis Mata Kuliah</label>
+            <select class="form-custom" required name="barang" id="pilihBarang">
+                <option value="0" selected disabled>--Pilih Mata Kuliah--</option>
                 <?php
-                $query="SELECT id_supplier,namaSupplier FROM supplier";
-                $execute=$konek->query($query);
-                if ($execute->num_rows > 0){
-                    while($data=$execute->fetch_array(MYSQLI_ASSOC)){
-                        echo "<option value=\"$data[id_supplier]\">$data[namaSupplier]</option>";
-                    }
-                }else {
-                    echo "<option disabled value=\"\">Belum ada Supplier</option>";
-                }
-                ?>
-            </select>
-        </div>
-        <div class="group-input">
-            <label for="barang">Jenis Barang</label>
-            <select class="form-custom" required name="barang" id="barang">
-                <option selected disabled>--Pilih Jenis Barang--</option>
-                <?php
-                $query="SELECT * FROM jenis_barang";
-                $execute=$konek->query($query);
-                if ($execute->num_rows > 0){
-                    while($data=$execute->fetch_array(MYSQLI_ASSOC)){
+                $query = "SELECT * FROM jenis_barang";
+                $execute = $konek->query($query);
+                if ($execute->num_rows > 0) {
+                    while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
                         echo "<option value=\"$data[id_jenisbarang]\">$data[namaBarang]</option>";
                     }
-                }else {
+                } else {
                     echo "<option disabled value=\"\">Belum ada Jenis Barang</option>";
                 }
                 ?>
             </select>
         </div>
+        <div class="group-input">
+            <label for="barang">Mahasiswa</label>
+            <select class="form-custom" required name="barang" id="pilihMahasiswa" disabled>
+                <option value="0" selected disabled>--Pilih Mahasiswa--</option>
+            </select>
+        </div>
         <?php
-        $query="SELECT * FROM kriteria";
-        $execute=$konek->query($query);
-        if ($execute->num_rows > 0){
-            while($data=$execute->fetch_array(MYSQLI_ASSOC)){
+        $query = "SELECT * FROM kriteria";
+        $execute = $konek->query($query);
+        if ($execute->num_rows > 0) {
+            while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
                 echo "<div class=\"group-input\">";
                 echo "<label for=\"nilai\">$data[namaKriteria]</label>";
-                echo "<input type='hidden' value=$data[id_kriteria] name='kriteria[]'>";
-                echo "<select class=\"form-custom\" required name=\"nilai[]\" id=\"nilai\">";
-                echo "<option disabled selected>-- Pilih $data[namaKriteria] --</option>";
-                $query2="SELECT id_nilaikriteria,keterangan FROM nilai_kriteria WHERE id_kriteria='$data[id_kriteria]'";
-                $execute2=$konek->query($query2);
-                    if ($execute2->num_rows > 0){
-                        while ($data2=$execute2->fetch_array(MYSQLI_ASSOC)){
-                            echo "<option value=\"$data2[id_nilaikriteria]\">$data2[keterangan]</option>";
-                        }
-                    }else{
-                        echo "<option disabled value=\"\">Belum ada Nilai Kriteria</option>";
-                    };
-                echo "</select></div>";
+                echo "<input type='hidden' value=\"$data[id_kriteria]\" name='kriteria[]'>";
+                echo "<input type=\"number\" class=\"form-custom\" step=\"0.01\" required name=\"nilai[]\" id=\"$data[namaKriteria]\" placeholder=\"Masukkan nilai untuk $data[namaKriteria]\" min=\"0\" max=\"100\">";
+                echo "</div>";
             }
         }
         ?>

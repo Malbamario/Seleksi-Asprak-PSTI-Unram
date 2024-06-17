@@ -3,6 +3,12 @@ $(document).ready(function () {
         e.preventDefault();
         var data=$(this).data('a');
         var url=$(this).attr('href');
+    });
+
+    $(document).on('click','#hapus',function (e) {
+        e.preventDefault();
+        var data=$(this).data('a');
+        var url=$(this).attr('href');
         var confirm=window.confirm("Apakah anda ingin mengahapus data "+data+" ?");
         if (confirm==true){
             $.ajax({
@@ -102,15 +108,20 @@ $(document).ready(function () {
     $('button#btn-dropdown').on('click',function () {
         $(this).next('#panel-dropdown').toggleClass('show');
     })
-    $('#isiSubkriteria').load("./proses/proseslihat.php/?op=subkriteria");
-    $('#pilih').change(function() {
-        var value =$(this).val();
-        $('#isiSubkriteria').hide().load("./proses/proseslihat.php/?op=subkriteria&id="+value).fadeIn('400');
-    });
     $('#isiNilai').load("./proses/proseslihat.php/?op=nilai");
     $('#pilihNilai').change(function() {
         var value =$(this).val();
+        var pilihBarang = $('#pilihBarang');
+        pilihBarang.val(value);
+        if(value>0) pilihBarang.attr("disabled", "disabled");
+        else pilihBarang.removeAttr("disabled");
+        isiMahasiswa($('#pilihMahasiswa'), pilihBarang, value);
         $('#isiNilai').hide().load("./proses/proseslihat.php/?op=nilai&id="+value).fadeIn('400');
+    });
+    $('#pilihBarang').change(function() {
+        var value =$(this).val();
+        pilihMahasiswa = $('#pilihMahasiswa');
+        isiMahasiswa(pilihMahasiswa, this, value);
     });
     $("#pilihHasil").change(function() {
         var value=$(this).val();
@@ -121,6 +132,14 @@ $(document).ready(function () {
             $('button#btn-dropdown').attr('disabled', false);
         }
     });
+
+    function isiMahasiswa(el, pilihBarang, value){
+        if(pilihBarang.val()<1) el.attr("disabled", "disabled");
+        else el.removeAttr("disabled");
+        console.log(pilihBarang.val());
+        el.hide().load("./proses/proseslihat.php/?op=mahasiswa&id="+value).fadeIn();
+    }
+
     function getCookieData(){
         var data=getCookie("pilih");
         if (data==null && data=="") {

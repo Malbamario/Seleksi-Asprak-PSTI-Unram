@@ -1,11 +1,11 @@
 <?php
-$a=htmlspecialchars(@$_GET['a']);
-$b=htmlspecialchars(@$_GET['b']);
-$getData=array();
-$querylihat="SELECT id_nilaikriteria FROM nilai_supplier WHERE id_supplier='$a' AND id_jenisbarang='$b'";
-$getnilaiKriteria=$konek->query($querylihat);
-while ($data=$getnilaiKriteria->fetch_array(MYSQLI_ASSOC)) {
-    array_push($getData,$data['id_nilaikriteria']);
+$a = htmlspecialchars(@$_GET['a']);
+$b = htmlspecialchars(@$_GET['b']);
+$getData = array();
+$querylihat = "SELECT nilai FROM nilai_supplier WHERE id_supplier='$a' AND id_jenisbarang='$b'";
+$getnilaiKriteria = $konek->query($querylihat);
+while ($data = $getnilaiKriteria->fetch_array(MYSQLI_ASSOC)) {
+    array_push($getData, $data['nilai']);
 }
 ?>
 <div class="panel-top panel-top-edit">
@@ -16,50 +16,36 @@ while ($data=$getnilaiKriteria->fetch_array(MYSQLI_ASSOC)) {
     <div class="panel-middle">
         <div class="group-input">
             <?php
-            $query="SELECT namaSupplier FROM supplier WHERE id_supplier='$a'";
-            $execute=$konek->query($query);
-            $data=$execute->fetch_array(MYSQLI_ASSOC);
+            $query = "SELECT namaSupplier FROM supplier WHERE id_supplier='$a'";
+            $execute = $konek->query($query);
+            $data = $execute->fetch_array(MYSQLI_ASSOC);
             ?>
             <div class="group-input">
                 <label for="jenisbarang">Nama Supplier</label>
-                <input class="form-custom" value="<?php echo $data['namaSupplier'];?>" disabled type="text" autocomplete="off" required name="jenisbarang" id="jenisbarang">
+                <input class="form-custom" value="<?php echo $data['namaSupplier']; ?>" disabled type="text" autocomplete="off" required name="jenisbarang" id="jenisbarang">
             </div>
         </div>
         <div class="group-input">
             <?php
-            $query="SELECT namaBarang FROM jenis_barang WHERE id_jenisbarang='$b'";
-            $execute=$konek->query($query);
-            $data=$execute->fetch_array(MYSQLI_ASSOC);
+            $query = "SELECT namaBarang FROM jenis_barang WHERE id_jenisbarang='$b'";
+            $execute = $konek->query($query);
+            $data = $execute->fetch_array(MYSQLI_ASSOC);
             ?>
             <div class="group-input">
                 <label for="jenisbarang">Jenis Barang</label>
-                <input class="form-custom" value="<?php echo $data['namaBarang'];?>" disabled type="text" autocomplete="off" required name="jenisbarang" id="jenisbarang" placeholder="jenisbarang">
+                <input class="form-custom" value="<?php echo $data['namaBarang']; ?>" disabled type="text" autocomplete="off" required name="jenisbarang" id="jenisbarang" placeholder="jenisbarang">
             </div>
         </div>
         <?php
-        $query="SELECT namaKriteria,id_nilaisupplier,id_kriteria FROM nilai_supplier INNER JOIN kriteria USING(id_kriteria) WHERE id_supplier='$a'";
-        $execute=$konek->query($query);
-        if ($execute->num_rows > 0){
-            while($data=$execute->fetch_array(MYSQLI_ASSOC)){
+        $query = "SELECT namaKriteria, id_nilaisupplier, id_kriteria FROM nilai_supplier INNER JOIN kriteria USING(id_kriteria) WHERE id_supplier='$a'";
+        $execute = $konek->query($query);
+        if ($execute->num_rows > 0) {
+            while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
                 echo "<div class=\"group-input\">";
                 echo "<label for=\"nilai\">$data[namaKriteria]</label>";
                 echo "<input type='hidden' value=\"$data[id_nilaisupplier]\" name=\"id[]\">";
-                echo "<select class=\"form-custom\" required name=\"nilai[]\" id=\"nilai\">";
-                $query2="SELECT id_nilaikriteria,keterangan FROM nilai_kriteria WHERE id_kriteria='$data[id_kriteria]'";
-                $execute2=$konek->query($query2);
-                    if ($execute2->num_rows > 0){
-                        while ($data2=$execute2->fetch_array(MYSQLI_ASSOC)){
-                            if (array_search($data2['id_nilaikriteria'],$getData)) {
-                                $selected="selected";
-                            }else{
-                                $selected=null;
-                            }
-                            echo "<option $selected value=\"$data2[id_nilaikriteria]\">$data2[keterangan]</option>";
-                        }
-                    }else{
-                        echo "<option disabled value=\"\">Belum ada Nilai Kriteria</option>";
-                    };
-                echo "</select></div>";
+                echo "<input type=\"number\" class=\"form-custom\" step=\"0.01\" required name=\"nilai[]\" id=\"$data[namaKriteria]\" placeholder=\"Masukkan nilai untuk $data[namaKriteria]\" min=\"0\" max=\"100\">";
+                echo "</div>";
             }
         }
         ?>

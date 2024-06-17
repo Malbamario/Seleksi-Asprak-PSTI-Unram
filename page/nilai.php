@@ -13,11 +13,11 @@
     <div class="col-4">
         <div class="panel">
             <?php
-            if (@htmlspecialchars($_GET['aksi'])=='ubah'){
+            if (@htmlspecialchars($_GET['aksi']) == 'ubah') {
                 include 'ubahnilai.php';
-            }elseif (@htmlspecialchars($_GET['aksi'])=='lihat'){
+            } elseif (@htmlspecialchars($_GET['aksi']) == 'lihat') {
                 include 'lihatnilai.php';
-            }else{
+            } else {
                 include 'tambahnilai.php';
             }
             ?>
@@ -26,23 +26,23 @@
     <div class="col-8">
         <div class="panel">
             <div class="panel-top">
-                <b style="float: left" class="text-green">Daftar Nilai</b>
+                <b style="float: left" class="text-green">Daftar Mahasiswa</b>
                 <div style="float:right;width: 250px;">
                     <select class="form-custom" name="pilih" id="pilihNilai">
-                        <option value="">Semua Jenis Barang</option>;
+                        <option value="0">Semua Mata Kuliah</option>;
                         <?php
-                        $query="SELECT*FROM jenis_barang";
-                        $execute=$konek->query($query);
-                        if ($execute->num_rows > 0){
-                            while ($data=$execute->fetch_array(MYSQLI_ASSOC)){
-                           if ($pilih==$data['id_jenisbarang']) {
-                                $selected="selected";
-                            }else{
-                                $selected=null;
-                            }
+                        $query = "SELECT*FROM jenis_barang";
+                        $execute = $konek->query($query);
+                        if ($execute->num_rows > 0) {
+                            while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
+                                if ($pilih == $data['id_jenisbarang']) {
+                                    $selected = "selected";
+                                } else {
+                                    $selected = null;
+                                }
                                 echo "<option $selected value=$data[id_jenisbarang]>$data[namaBarang]</option>";
                             }
-                        }else{
+                        } else {
                             echo '<option disabled value="">Tidak ada data</option>';
                         }
                         ?>
@@ -53,7 +53,14 @@
             <div class="panel-middle" id="animation">
                 <div class="table-responsive">
                     <table>
-                        <thead><tr><th>No</th><th>Nama Barang</th><th>Nama Supplier</th><th>Aksi</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Mata Kuliah</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
                         <tbody id="isiNilai"></tbody>
                     </table>
                 </div>

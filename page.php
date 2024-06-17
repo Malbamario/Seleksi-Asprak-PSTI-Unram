@@ -16,9 +16,6 @@ switch ($page){
     case 'kriteria':
         include 'page/kriteria.php';
         break;
-    case 'subkriteria':
-        include 'page/subkriteria.php';
-        break;
     case 'bobot':
         include 'page/bobot.php';
         break;

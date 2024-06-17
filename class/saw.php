@@ -40,7 +40,7 @@ class saw {
     }
     public function getNilaiMatriks($id_supplier){
         $data=array();
-        $queryGetNilai="SELECT nilai_kriteria.nilai AS nilai, kriteria.sifat AS sifat, nilai_supplier.id_kriteria AS id_kriteria FROM nilai_supplier JOIN kriteria ON kriteria.id_kriteria=nilai_supplier.id_kriteria JOIN nilai_kriteria ON nilai_kriteria.id_nilaikriteria=nilai_supplier.id_nilaikriteria WHERE (id_jenisbarang='$this->idCookie' AND id_supplier='$id_supplier')";
+        $queryGetNilai="SELECT nilai_supplier.nilai AS nilai, kriteria.sifat AS sifat, nilai_supplier.id_kriteria AS id_kriteria FROM nilai_supplier JOIN kriteria ON kriteria.id_kriteria=nilai_supplier.id_kriteria WHERE (id_jenisbarang='$this->idCookie' AND id_supplier='$id_supplier')";
         $execute=$this->getConnect()->query($queryGetNilai);
         while ($row=$execute->fetch_array(MYSQLI_ASSOC)) {
             array_push($data,array(
@@ -50,24 +50,6 @@ class saw {
             ));
         }
         return $data;
-    }
-    public function getArrayNilai($id_kriteria){
-        $data=array();
-        $queryGetArrayNilai="SELECT nilai_kriteria.nilai AS nilai FROM nilai_supplier INNER JOIN nilai_kriteria ON nilai_supplier.id_nilaikriteria=nilai_kriteria.id_nilaikriteria WHERE nilai_supplier.id_kriteria='$id_kriteria' AND nilai_supplier.id_jenisbarang='$this->idCookie'";
-        $execute=$this->getConnect()->query($queryGetArrayNilai);
-        while ($row=$execute->fetch_array(MYSQLI_ASSOC)) {
-            array_push($data,$row['nilai']);
-        }
-        return $data;
-    }
-    //rumus normalisasai
-    public function normalisasi($array,$sifat,$nilai){
-        if ($sifat=='Benefit'){
-            $result=$nilai/max($array);
-        }elseif ($sifat=='Cost'){
-            $result=min($array)/$nilai;
-        }
-        return round($result,3);
     }
     //mendapatkan bobot kriteria
     public function getBobot($id_kriteria){

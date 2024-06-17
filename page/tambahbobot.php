@@ -1,4 +1,3 @@
-
 <!-- judul -->
 <div class="panel-top">
     <b class="text-green"><i class="fa fa-plus-circle text-green"></i> Tambah data</b>
@@ -7,27 +6,27 @@
     <input type="hidden" value="bobot" name="op">
     <div class="panel-middle">
         <div class="group-input">
-            <label for="barang">Jenis Barang</label>
+            <label for="barang">Jenis Mata Kuliah</label>
             <select class="form-custom" required name="barang" id="barang">
-                <option selected disabled>--Pilih Jenis Barang--</option>
+                <option selected disabled>--Pilih Jenis Mata Kuliah--</option>
                 <?php
-                $query="SELECT * FROM jenis_barang";
-                $execute=$konek->query($query);
-                if ($execute->num_rows > 0){
-                    while($data=$execute->fetch_array(MYSQLI_ASSOC)){
+                $query = "SELECT * FROM jenis_barang";
+                $execute = $konek->query($query);
+                if ($execute->num_rows > 0) {
+                    while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
                         echo "<option value=\"$data[id_jenisbarang]\">$data[namaBarang]</option>";
                     }
-                }else {
+                } else {
                     echo "<option value=\"\">Belum ada Jenis Barang</option>";
                 }
                 ?>
             </select>
         </div>
         <?php
-        $query="SELECT * FROM kriteria";
-        $execute=$konek->query($query);
-        if ($execute->num_rows > 0){
-            while($data=$execute->fetch_array(MYSQLI_ASSOC)){
+        $query = "SELECT * FROM kriteria";
+        $execute = $konek->query($query);
+        if ($execute->num_rows > 0) {
+            while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
                 echo "<div class=\"group-input\">
                         <label for=\"$data[namaKriteria]\">$data[namaKriteria]</label>
                         <input type='hidden' value=$data[id_kriteria] name='kriteria[]'>

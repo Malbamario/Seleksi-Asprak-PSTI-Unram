@@ -32,12 +32,6 @@ switch ($op){
         $query="INSERT INTO kriteria (namaKriteria,sifat) VALUES ('$kriteria','$sifat')";
         $crud->multiAddData($cek,$query,$konek);
     break;
-    case 'subkriteria'://tambah data sub kriteria
-        $cek="SELECT id_nilaikriteria FROM nilai_kriteria WHERE (id_kriteria='$kriteria' AND nilai ='$nilai') OR (id_kriteria='$kriteria' AND keterangan = '$keterangan')";
-        $query=null;
-        $query.="INSERT INTO nilai_kriteria (id_kriteria,nilai,keterangan) VALUES ('$kriteria','$nilai','$keterangan');";
-        $crud->multiAddData($cek,$query,$konek);
-    break;
     case 'bobot'://tambah data bobot
         $cek="SELECT id_bobotkriteria FROM bobot_kriteria WHERE id_jenisbarang='$barang'";
         $query=null;
@@ -50,7 +44,7 @@ switch ($op){
         $cek="SELECT id_supplier FROM nilai_supplier WHERE id_supplier='$supplier'";
         $query=null;
         for ($i=0;$i<count($nilai);$i++){
-            $query.="INSERT INTO nilai_supplier (id_supplier,id_jenisbarang,id_kriteria,id_nilaikriteria) VALUES ('$supplier','$barang','$kriteria[$i]','$nilai[$i]');";
+            $query.="INSERT INTO nilai_supplier (id_supplier,id_jenisbarang,id_kriteria,nilai) VALUES ('$supplier','$barang','$kriteria[$i]','$nilai[$i]');";
         }
         $crud->multiAddData($cek,$query,$konek);
     break;
