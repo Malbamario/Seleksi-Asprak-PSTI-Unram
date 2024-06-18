@@ -13,7 +13,7 @@
     <div class="panel-top">
         <div style="float:left;width: 300px;">
             <select class="form-custom" name="pilih"  id="pilihHasil">
-                <option disabled selected value="0">-- Pilih Jenis Barang --</option>;
+                <option disabled selected value="0">-- Pilih Jenis Praktikum --</option>;
                 <?php
                 $query="SELECT*FROM jenis_barang";
                 $execute=$konek->query($query);
@@ -38,7 +38,7 @@
     </div>
     <div class="panel-middle">
         <div id="valueHasil">
-            <p class='text-center'><b>Pilih List Barang, untuk menampilkan hasil</b></p>
+            <p class='text-center'><b>Pilih List Praktikum, untuk menampilkan hasil</b></p>
         </div>
     </div>
     <div class="panel-bottom"></div>
