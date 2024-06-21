@@ -23,8 +23,8 @@
             </select>
         </div>
         <div class="group-input">
-            <label for="matkul">Mahasiswa</label>
-            <select class="form-custom" required name="matkul" id="pilihMahasiswa" disabled>
+            <label for="mahasiswa">Mahasiswa</label>
+            <select class="form-custom" required name="mahasiswa" id="pilihMahasiswa" disabled>
                 <option value="0" selected disabled>--Pilih Mahasiswa--</option>
             </select>
         </div>

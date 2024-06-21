@@ -1,7 +1,7 @@
 <!-- judul -->
 <div class="panel">
     <div class="panel-middle" id="judul">
-        <img src="asset/image/matkul.svg">
+        <!-- <img src="asset/image/matkul.svg"> -->
         <div id="judul-text">
             <h2 class="text-green">Mata Kuliah</h2>
             Halamanan Administrator Mata Kuliah

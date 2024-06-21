@@ -43,7 +43,7 @@ switch ($op){
         $execute = $konek->query($query);
         echo "<option value='0' selected disabled>--Pilih Mahasiswa--</option>";
         if ($execute->num_rows > 0) {
-            $query = "SELECT distinct mahasiswa.id_mahasiswa, mahasiswa.namaMahasiswa FROM mahasiswa LEFT JOIN nilai_mahasiswa ON mahasiswa.id_mahasiswa=nilai_mahasiswa.id_mahasiswa WHERE id_matkul=$id AND nilai_mahasiswa.id_mahasiswa IS NULL";
+            $query = "SELECT m.id_mahasiswa, m.namaMahasiswa FROM mahasiswa m LEFT JOIN nilai_mahasiswa nm ON m.id_mahasiswa = nm.id_mahasiswa AND nm.id_matkul = $id WHERE nm.id_mahasiswa IS NULL";
             $execute = $konek->query($query);
             if ($execute->num_rows > 0) {
                 while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {

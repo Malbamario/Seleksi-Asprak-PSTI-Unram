@@ -51,6 +51,7 @@ $(document).ready(function () {
             beforeSend:function(){
                 $("#buttonsimpan").html("process..");
                 $("input,#buttonsimpan,#buttonreset").attr('disabled',true);
+                console.log(data);
             },
             success:function (e) {
                 if (e=='success'){
@@ -136,7 +137,6 @@ $(document).ready(function () {
         pilihMatkul.val(value);
         if(value>0) pilihMatkul.attr("disabled", "disabled");
         else pilihMatkul.removeAttr("disabled");
-        console.log(value);
         isiMahasiswa($('#pilihMahasiswa'), pilihMatkul, value);
         $('#isiNilai').hide().load("./proses/proseslihat.php/?op=nilai&id="+value).fadeIn('400');
     }

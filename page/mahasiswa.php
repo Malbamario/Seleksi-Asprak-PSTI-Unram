@@ -1,6 +1,6 @@
 <div class="panel">
     <div class="panel-middle" id="judul">
-        <img src="asset/image/mahasiswa.svg">
+        <!-- <img src="asset/image/mahasiswa.svg"> -->
         <div id="judul-text">
             <h2 class="text-green">Mahasiswa</h2>
             Halamanan Administrator Mahasiswa

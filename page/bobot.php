@@ -4,7 +4,7 @@ require './connect.php';
 <!-- judul -->
 <div class="panel">
     <div class="panel-middle" id="judul">
-        <img src="asset/image/bobot.svg">
+        <!-- <img src="asset/image/bobot.svg"> -->
         <div id="judul-text">
             <h2 class="text-green">BOBOT</h2>
             Halamanan Administrator Bobot Kriteria

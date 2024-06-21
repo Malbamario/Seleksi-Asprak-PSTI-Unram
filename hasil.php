@@ -29,7 +29,7 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
             <?php
             foreach ($alternatives as $key) {
              echo "<tr id='data'>";
-                echo "<td>".$key['namaMahasiswa']."</td>";
+                echo "<td id='alt'>".$key['namaMahasiswa']."</td>";
                 $no=0;
                 foreach ($topsis->getNilaiMatriks($key['id_mahasiswa']) as $data) {
                     echo "<td>$data[nilai]</td>";
@@ -87,7 +87,7 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
             foreach ($alternatives as $alternative) {
                 $id_mahasiswa = $alternative['id_mahasiswa'];
                 echo "<tr id='data'>";
-                echo "<td>".$alternative['namaMahasiswa']."</td>";
+                echo "<td id='alt'>".$alternative['namaMahasiswa']."</td>";
                 foreach($kriteria as $krit) {
                     $hasil = number_format((float)$normalisasi[$id_mahasiswa][$krit['id_kriteria']], 4, '.', '');
                     echo "<td>{$hasil}</td>";
@@ -130,7 +130,7 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
             foreach ($alternatives as $alternative) {
                 $id_mahasiswa = $alternative['id_mahasiswa'];
                 echo "<tr id='data'>";
-                echo "<td>".$alternative['namaMahasiswa']."</td>";
+                echo "<td id='alt'>".$alternative['namaMahasiswa']."</td>";
                 foreach($kriteria as $krit) {
                     $hasil = $normalisasi_terbobot[$id_mahasiswa][$krit['id_kriteria']];
                     $hasil = number_format((float)$hasil, 4, '.', '');
@@ -229,7 +229,7 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
                 $distPos = number_format((float)$jarak_solusi[$id_mahasiswa]['D+'], 4, '.', '');
                 $distNeg = number_format((float)$jarak_solusi[$id_mahasiswa]['D-'], 4, '.', '');
                 echo "<tr id='data'>";
-                echo "<td>".$alternative['namaMahasiswa']."</td>";
+                echo "<td id='alt'>".$alternative['namaMahasiswa']."</td>";
                 echo "<td>$distPos</td>";
                 echo "<td>$distNeg</td>";
                 echo "</tr>";
@@ -264,7 +264,7 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
                 $hasil_compact = number_format((float)$hasil, 4, '.', '');
                 echo "<tr id='data'>";
                 echo "<td>{$no}</td>";
-                echo "<td>{$key}</td>";
+                echo "<td id='alt'>{$key}</td>";
                 echo "<td>{$hasil_compact}</td>";
                 echo "</tr>";
                 $no++;
