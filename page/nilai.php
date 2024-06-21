@@ -13,6 +13,7 @@
     <div class="col-4">
         <div class="panel">
             <?php
+            $pilih=@$_COOKIE['pilih'];
             if (@htmlspecialchars($_GET['aksi']) == 'ubah') {
                 include 'ubahnilai.php';
             } elseif (@htmlspecialchars($_GET['aksi']) == 'lihat') {
@@ -31,16 +32,16 @@
                     <select class="form-custom" name="pilih" id="pilihNilai">
                         <option value="0">Semua Mata Kuliah</option>;
                         <?php
-                        $query = "SELECT*FROM jenis_barang";
+                        $query = "SELECT*FROM _matkul";
                         $execute = $konek->query($query);
                         if ($execute->num_rows > 0) {
                             while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
-                                if ($pilih == $data['id_jenisbarang']) {
+                                if ($pilih == $data['id_matkul']) {
                                     $selected = "selected";
                                 } else {
                                     $selected = null;
                                 }
-                                echo "<option $selected value=$data[id_jenisbarang]>$data[namaBarang]</option>";
+                                echo "<option $selected value=$data[id_matkul]>$data[namaMatkul]</option>";
                             }
                         } else {
                             echo '<option disabled value="">Tidak ada data</option>';
@@ -49,6 +50,7 @@
                     </select>
                 </div>
                 <div style="clear: both;"></div>
+                <a  class="btn btn-green" id="btn-dropdown" href="./?page=penilaian"><i class="fa fa-plus"></i> Tambah Data</a>
             </div>
             <div class="panel-middle" id="animation">
                 <div class="table-responsive">

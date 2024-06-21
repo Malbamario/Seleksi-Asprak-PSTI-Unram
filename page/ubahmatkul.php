@@ -1,23 +1,23 @@
 <?php
 $id=htmlspecialchars(@$_GET['id']);
-$query="SELECT id_jenisbarang,namaBarang FROM jenis_barang WHERE id_jenisbarang='$id'";
+$query="SELECT id_matkul,namaMatkul FROM _matkul WHERE id_matkul='$id'";
 $execute=$konek->query($query);
 if ($execute->num_rows > 0){
     $data=$execute->fetch_array(MYSQLI_ASSOC);
 }else{
-    header('location:./?page=barang');
+    header('location:./?page=matkul');
 }
 ?>
 <div class="panel-top panel-top-edit">
     <b><i class="fa fa-pencil-alt"></i> Ubah data</b>
 </div>
 <form id="form" method="POST" action="./proses/prosesubah.php">
-    <input type="hidden" name="op" value="barang">
-    <input type="hidden" name="id" value="<?php echo $data['id_jenisbarang']; ?>">
+    <input type="hidden" name="op" value="matkul">
+    <input type="hidden" name="id" value="<?php echo $data['id_matkul']; ?>">
     <div class="panel-middle">
         <div class="group-input">
-            <label for="barang" >Nama Barang :</label>
-            <input type="text" value="<?php echo $data['namaBarang']; ?>" class="form-custom" required autocomplete="off" placeholder="Nama Barang" id="barang" name="barang">
+            <label for="matkul" >Nama Matkul :</label>
+            <input type="text" value="<?php echo $data['namaMatkul']; ?>" class="form-custom" required autocomplete="off" placeholder="Nama Matkul" id="matkul" name="matkul">
         </div>
     </div>
     <div class="panel-bottom">

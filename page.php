@@ -7,11 +7,11 @@ switch ($page){
     case 'beranda':
         include 'page/beranda.php';
         break;
-    case 'barang':
-        include 'page/barang.php';
+    case 'matkul':
+        include 'page/matkul.php';
         break;
-    case 'supplier':
-        include 'page/supplier.php';
+    case 'mahasiswa':
+        include 'page/mahasiswa.php';
         break;
     case 'kriteria':
         include 'page/kriteria.php';

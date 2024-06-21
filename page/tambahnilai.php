@@ -6,25 +6,25 @@
     <input type="hidden" value="nilai" name="op">
     <div class="panel-middle">
         <div class="group-input">
-            <label for="barang">Jenis Mata Kuliah</label>
-            <select class="form-custom" required name="barang" id="pilihBarang">
+            <label for="matkul">Mata Kuliah</label>
+            <select class="form-custom" required name="matkul" id="pilihMatkul">
                 <option value="0" selected disabled>--Pilih Mata Kuliah--</option>
                 <?php
-                $query = "SELECT * FROM jenis_barang";
+                $query = "SELECT * FROM _matkul";
                 $execute = $konek->query($query);
                 if ($execute->num_rows > 0) {
                     while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
-                        echo "<option value=\"$data[id_jenisbarang]\">$data[namaBarang]</option>";
+                        echo "<option value=$data[id_matkul]>$data[namaMatkul]</option>";
                     }
                 } else {
-                    echo "<option disabled value=\"\">Belum ada Jenis Barang</option>";
+                    echo "<option disabled value=\"\">Belum ada Matkul</option>";
                 }
                 ?>
             </select>
         </div>
         <div class="group-input">
-            <label for="barang">Mahasiswa</label>
-            <select class="form-custom" required name="barang" id="pilihMahasiswa" disabled>
+            <label for="matkul">Mahasiswa</label>
+            <select class="form-custom" required name="matkul" id="pilihMahasiswa" disabled>
                 <option value="0" selected disabled>--Pilih Mahasiswa--</option>
             </select>
         </div>

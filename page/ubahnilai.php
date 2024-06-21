@@ -2,7 +2,7 @@
 $a = htmlspecialchars(@$_GET['a']);
 $b = htmlspecialchars(@$_GET['b']);
 $getData = array();
-$querylihat = "SELECT nilai FROM nilai_supplier WHERE id_supplier='$a' AND id_jenisbarang='$b'";
+$querylihat = "SELECT nilai FROM nilai_mahasiswa WHERE id_mahasiswa='$a' AND id_matkul='$b'";
 $getnilaiKriteria = $konek->query($querylihat);
 while ($data = $getnilaiKriteria->fetch_array(MYSQLI_ASSOC)) {
     array_push($getData, $data['nilai']);
@@ -16,34 +16,34 @@ while ($data = $getnilaiKriteria->fetch_array(MYSQLI_ASSOC)) {
     <div class="panel-middle">
         <div class="group-input">
             <?php
-            $query = "SELECT namaSupplier FROM supplier WHERE id_supplier='$a'";
+            $query = "SELECT namaMahasiswa FROM mahasiswa WHERE id_mahasiswa='$a'";
             $execute = $konek->query($query);
             $data = $execute->fetch_array(MYSQLI_ASSOC);
             ?>
             <div class="group-input">
-                <label for="jenisbarang">Nama Supplier</label>
-                <input class="form-custom" value="<?php echo $data['namaSupplier']; ?>" disabled type="text" autocomplete="off" required name="jenisbarang" id="jenisbarang">
+                <label for="matkul">Nama Mahasiswa</label>
+                <input class="form-custom" value="<?php echo $data['namaMahasiswa']; ?>" disabled type="text" autocomplete="off" required name="matkul" id="matkul">
             </div>
         </div>
         <div class="group-input">
             <?php
-            $query = "SELECT namaBarang FROM jenis_barang WHERE id_jenisbarang='$b'";
+            $query = "SELECT namaMatkul FROM _matkul WHERE id_matkul='$b'";
             $execute = $konek->query($query);
             $data = $execute->fetch_array(MYSQLI_ASSOC);
             ?>
             <div class="group-input">
-                <label for="jenisbarang">Jenis Barang</label>
-                <input class="form-custom" value="<?php echo $data['namaBarang']; ?>" disabled type="text" autocomplete="off" required name="jenisbarang" id="jenisbarang" placeholder="jenisbarang">
+                <label for="matkul">Matkul</label>
+                <input class="form-custom" value="<?php echo $data['namaMatkul']; ?>" disabled type="text" autocomplete="off" required name="matkul" id="matkul" placeholder="matkul">
             </div>
         </div>
         <?php
-        $query = "SELECT namaKriteria, id_nilaisupplier, id_kriteria FROM nilai_supplier INNER JOIN kriteria USING(id_kriteria) WHERE id_supplier='$a'";
+        $query = "SELECT namaKriteria, id_nilaimahasiswa, id_kriteria FROM nilai_mahasiswa INNER JOIN kriteria USING(id_kriteria) WHERE id_mahasiswa='$a'";
         $execute = $konek->query($query);
         if ($execute->num_rows > 0) {
             while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
                 echo "<div class=\"group-input\">";
                 echo "<label for=\"nilai\">$data[namaKriteria]</label>";
-                echo "<input type='hidden' value=\"$data[id_nilaisupplier]\" name=\"id[]\">";
+                echo "<input type='hidden' value=\"$data[id_nilaimahasiswa]\" name=\"id[]\">";
                 echo "<input type=\"number\" class=\"form-custom\" step=\"0.01\" required name=\"nilai[]\" id=\"$data[namaKriteria]\" placeholder=\"Masukkan nilai untuk $data[namaKriteria]\" min=\"0\" max=\"100\">";
                 echo "</div>";
             }

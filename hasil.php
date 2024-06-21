@@ -1,12 +1,13 @@
 <?php
 require 'connect.php';
-require 'class/saw.php';
+require 'class/topsis.php';
 $cookiePilih=@$_COOKIE['pilih'];
 if (isset($cookiePilih) and !empty($cookiePilih)) {
-    $saw=new saw();
-    $saw->setconfig($konek,$cookiePilih);
-    $kriteria = $saw->getKriteria();
-    $alternatives = $saw->getAlternative();
+    $topsis=new topsis();
+    $topsis->setconfig($konek,$cookiePilih);
+    $kriteria = $topsis->getKriteria();
+    $alternatives = $topsis->getAlternative();
+    if(count($alternatives)>0){
 ?>
 <div id="Matriks Keputusan">
     <h3>Matriks Keputusan</h3>
@@ -28,9 +29,9 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
             <?php
             foreach ($alternatives as $key) {
              echo "<tr id='data'>";
-                echo "<td>".$key['namaSupplier']."</td>";
+                echo "<td>".$key['namaMahasiswa']."</td>";
                 $no=0;
-                foreach ($saw->getNilaiMatriks($key['id_supplier']) as $data) {
+                foreach ($topsis->getNilaiMatriks($key['id_mahasiswa']) as $data) {
                     echo "<td>$data[nilai]</td>";
                 }
                 echo "</tr>";
@@ -61,9 +62,9 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
             // Membuat array untuk menyimpan nilai kriteria
             $matriksKeputusan = [];
             foreach ($alternatives as $alternative) {
-                $id_supplier = $alternative['id_supplier'];
-                foreach ($saw->getNilaiMatriks($id_supplier) as $data) {
-                    $matriksKeputusan[$id_supplier][$data['id_kriteria']] = $data['nilai'];
+                $id_mahasiswa = $alternative['id_mahasiswa'];
+                foreach ($topsis->getNilaiMatriks($id_mahasiswa) as $data) {
+                    $matriksKeputusan[$id_mahasiswa][$data['id_kriteria']] = $data['nilai'];
                 }
             }
 
@@ -72,23 +73,23 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
             foreach($kriteria as $krit) {
                 $sumSquare = 0;
                 foreach ($alternatives as $alternative) {
-                    $id_supplier = $alternative['id_supplier'];
-                    $sumSquare += pow($matriksKeputusan[$id_supplier][$krit['id_kriteria']], 2);
+                    $id_mahasiswa = $alternative['id_mahasiswa'];
+                    $sumSquare += pow($matriksKeputusan[$id_mahasiswa][$krit['id_kriteria']], 2);
                 }
                 $sqrtSumSquare = sqrt($sumSquare);
                 foreach ($alternatives as $alternative) {
-                    $id_supplier = $alternative['id_supplier'];
-                    $normalisasi[$id_supplier][$krit['id_kriteria']] = $matriksKeputusan[$id_supplier][$krit['id_kriteria']] / $sqrtSumSquare;
+                    $id_mahasiswa = $alternative['id_mahasiswa'];
+                    $normalisasi[$id_mahasiswa][$krit['id_kriteria']] = $matriksKeputusan[$id_mahasiswa][$krit['id_kriteria']] / $sqrtSumSquare;
                 }
             }
 
             // Mencetak tabel dengan nilai normalisasi
             foreach ($alternatives as $alternative) {
-                $id_supplier = $alternative['id_supplier'];
+                $id_mahasiswa = $alternative['id_mahasiswa'];
                 echo "<tr id='data'>";
-                echo "<td>".$alternative['namaSupplier']."</td>";
+                echo "<td>".$alternative['namaMahasiswa']."</td>";
                 foreach($kriteria as $krit) {
-                    $hasil = number_format((float)$normalisasi[$id_supplier][$krit['id_kriteria']], 4, '.', '');
+                    $hasil = number_format((float)$normalisasi[$id_mahasiswa][$krit['id_kriteria']], 4, '.', '');
                     echo "<td>{$hasil}</td>";
                 }
                 echo "</tr>";
@@ -120,18 +121,18 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
             $normalisasi_terbobot = [];
             foreach($kriteria as $krit) {
                 foreach ($alternatives as $alternative) {
-                    $id_supplier = $alternative['id_supplier'];
-                    $normalisasi_terbobot[$id_supplier][$krit['id_kriteria']] = $normalisasi[$id_supplier][$krit['id_kriteria']]*$saw->getBobot($krit['id_kriteria']);
+                    $id_mahasiswa = $alternative['id_mahasiswa'];
+                    $normalisasi_terbobot[$id_mahasiswa][$krit['id_kriteria']] = $normalisasi[$id_mahasiswa][$krit['id_kriteria']]*$topsis->getBobot($krit['id_kriteria']);
                 }
             }
 
             // Mencetak tabel dengan nilai normalisasi
             foreach ($alternatives as $alternative) {
-                $id_supplier = $alternative['id_supplier'];
+                $id_mahasiswa = $alternative['id_mahasiswa'];
                 echo "<tr id='data'>";
-                echo "<td>".$alternative['namaSupplier']."</td>";
+                echo "<td>".$alternative['namaMahasiswa']."</td>";
                 foreach($kriteria as $krit) {
-                    $hasil = $normalisasi_terbobot[$id_supplier][$krit['id_kriteria']];
+                    $hasil = $normalisasi_terbobot[$id_mahasiswa][$krit['id_kriteria']];
                     $hasil = number_format((float)$hasil, 4, '.', '');
                     echo "<td>$hasil</td>";
                 }
@@ -165,8 +166,8 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
             foreach($kriteria as $krit) {
                 $data_kriteria = [];
                 foreach ($alternatives as $alternative) {
-                    $id_supplier = $alternative['id_supplier'];
-                    $data_kriteria[$id_supplier] = $normalisasi_terbobot[$id_supplier][$krit['id_kriteria']];
+                    $id_mahasiswa = $alternative['id_mahasiswa'];
+                    $data_kriteria[$id_mahasiswa] = $normalisasi_terbobot[$id_mahasiswa][$krit['id_kriteria']];
                 }
 
                 if($krit['sifat']=="Benefit"){
@@ -208,27 +209,27 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
             // Menghitung nilai normalisasi
             $jarak_solusi = [];
             foreach ($alternatives as $alternative) {
-                $id_supplier = $alternative['id_supplier'];
+                $id_mahasiswa = $alternative['id_mahasiswa'];
 
                 $sumSquarePos = 0;
                 $sumSquareNeg = 0;
 
                 foreach($kriteria as $krit) {
-                    $sumSquarePos += pow($solusi_ideal['A+'][$krit['id_kriteria']]-$normalisasi_terbobot[$id_supplier][$krit['id_kriteria']], 2);
-                    $sumSquareNeg += pow($normalisasi_terbobot[$id_supplier][$krit['id_kriteria']]-$solusi_ideal['A-'][$krit['id_kriteria']], 2);
+                    $sumSquarePos += pow($solusi_ideal['A+'][$krit['id_kriteria']]-$normalisasi_terbobot[$id_mahasiswa][$krit['id_kriteria']], 2);
+                    $sumSquareNeg += pow($normalisasi_terbobot[$id_mahasiswa][$krit['id_kriteria']]-$solusi_ideal['A-'][$krit['id_kriteria']], 2);
                 }
 
-                $jarak_solusi[$id_supplier]['D+'] = sqrt($sumSquarePos);
-                $jarak_solusi[$id_supplier]['D-'] = sqrt($sumSquareNeg);
+                $jarak_solusi[$id_mahasiswa]['D+'] = sqrt($sumSquarePos);
+                $jarak_solusi[$id_mahasiswa]['D-'] = sqrt($sumSquareNeg);
             }
 
             // Mencetak tabel dengan nilai normalisasi
             foreach ($alternatives as $alternative) {
-                $id_supplier = $alternative['id_supplier'];
-                $distPos = number_format((float)$jarak_solusi[$id_supplier]['D+'], 4, '.', '');
-                $distNeg = number_format((float)$jarak_solusi[$id_supplier]['D-'], 4, '.', '');
+                $id_mahasiswa = $alternative['id_mahasiswa'];
+                $distPos = number_format((float)$jarak_solusi[$id_mahasiswa]['D+'], 4, '.', '');
+                $distNeg = number_format((float)$jarak_solusi[$id_mahasiswa]['D-'], 4, '.', '');
                 echo "<tr id='data'>";
-                echo "<td>".$alternative['namaSupplier']."</td>";
+                echo "<td>".$alternative['namaMahasiswa']."</td>";
                 echo "<td>$distPos</td>";
                 echo "<td>$distNeg</td>";
                 echo "</tr>";
@@ -253,8 +254,8 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
 
             $preferensi = [];
             foreach ($alternatives as $alternative) {
-                $id_supplier = $alternative["id_supplier"];
-                $preferensi[$alternative["namaSupplier"]] = $jarak_solusi[$id_supplier]['D-']/($jarak_solusi[$id_supplier]['D+']+$jarak_solusi[$id_supplier]['D-']);
+                $id_mahasiswa = $alternative["id_mahasiswa"];
+                $preferensi[$alternative["namaMahasiswa"]] = $jarak_solusi[$id_mahasiswa]['D-']/($jarak_solusi[$id_mahasiswa]['D+']+$jarak_solusi[$id_mahasiswa]['D-']);
             }
             arsort($preferensi);
             
@@ -268,7 +269,7 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
                 echo "</tr>";
                 $no++;
                 foreach($alternatives as $alternative){
-                    if($key==$alternative['namaSupplier']) $saw->simpanHasil($alternative['id_supplier'],$hasil);
+                    if($key==$alternative['namaMahasiswa']) $topsis->simpanHasil($alternative['id_mahasiswa'],$hasil);
                 }
             }
             ?>
@@ -277,5 +278,8 @@ if (isset($cookiePilih) and !empty($cookiePilih)) {
 </div>
 <?php
 //cetak hasil
-    $saw->getHasil();
+        $topsis->getHasil();
+    } else {
+        echo "<h3>Belum ada data yang ditambahkan</h3>";
+    }
 }

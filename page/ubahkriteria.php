@@ -17,7 +17,7 @@ if ($execute->num_rows > 0){
     <input type="hidden" name="id" value="<?php echo $data['id_kriteria']; ?>">
     <div class="panel-middle">
         <div class="group-input">
-            <label for="kriteria" >Nama Supplier :</label>
+            <label for="kriteria" >Nama Mahasiswa :</label>
             <input type="text" value="<?php echo $data['namaKriteria']; ?>" class="form-custom" required autocomplete="off" placeholder="Nama Kriteria" id="kriteria" name="kriteria">
         </div>
         <div class="group-input">

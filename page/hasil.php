@@ -13,13 +13,13 @@
     <div class="panel-top">
         <div style="float:left;width: 300px;">
             <select class="form-custom" name="pilih"  id="pilihHasil">
-                <option disabled selected value="0">-- Pilih Jenis Praktikum --</option>;
+                <option disabled selected value="0">-- Pilih Praktikum --</option>;
                 <?php
-                $query="SELECT*FROM jenis_barang";
+                $query="SELECT*FROM _matkul";
                 $execute=$konek->query($query);
                 if ($execute->num_rows > 0){
                     while ($data=$execute->fetch_array(MYSQLI_ASSOC)){
-                        echo "<option value=$data[id_jenisbarang]>$data[namaBarang]</option>";
+                        echo "<option value=$data[id_matkul]>$data[namaMatkul]</option>";
                     }
                 }else{
                     echo '<option disabled value="">Tidak ada data</option>';
@@ -38,7 +38,7 @@
     </div>
     <div class="panel-middle">
         <div id="valueHasil">
-            <p class='text-center'><b>Pilih List Praktikum, untuk menampilkan hasil</b></p>
+            <p class='text-center'><b>Pilih praktikum untuk menampilkan hasil</b></p>
         </div>
     </div>
     <div class="panel-bottom"></div>

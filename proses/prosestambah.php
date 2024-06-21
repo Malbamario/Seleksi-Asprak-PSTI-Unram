@@ -10,20 +10,20 @@ if ($_SERVER['REQUEST_METHOD']=='GET') {
     $id=@$_POST['id'];
     $op=@$_POST['op'];
 }
-$barang=@$_POST['barang'];
-$supplier=@$_POST['supplier'];
+$matkul=@$_POST['matkul'];
+$mahasiswa=@$_POST['mahasiswa'];
 $kriteria=@$_POST['kriteria'];
 $sifat=@$_POST['sifat'];
 $nilai=@$_POST['nilai'];
 $keterangan=@$_POST['keterangan'];
 $bobot=@$_POST['bobot'];
 switch ($op){
-    case 'barang'://tambah data barang
-        $query="INSERT INTO jenis_barang (namaBarang) VALUES ('$barang')";
+    case 'matkul'://tambah data matkul
+        $query="INSERT INTO _matkul (namaMatkul) VALUES ('$matkul')";
         $crud->addData($query,$konek);
     break;
-    case 'supplier': //tambah data supplier
-        $query="INSERT INTO supplier (namaSupplier) VALUES ('$supplier')";
+    case 'mahasiswa': //tambah data mahasiswa
+        $query="INSERT INTO mahasiswa (namaMahasiswa) VALUES ('$mahasiswa')";
         $crud->addData($query,$konek);
     break;
     case 'kriteria'://tambah data kriteria
@@ -33,18 +33,18 @@ switch ($op){
         $crud->multiAddData($cek,$query,$konek);
     break;
     case 'bobot'://tambah data bobot
-        $cek="SELECT id_bobotkriteria FROM bobot_kriteria WHERE id_jenisbarang='$barang'";
+        $cek="SELECT id_bobotkriteria FROM bobot_kriteria WHERE id_matkul='$matkul'";
         $query=null;
         for ($i=0;$i<count($kriteria);$i++){
-            $query.="INSERT INTO bobot_kriteria (id_jenisbarang,id_kriteria,bobot) VALUES ('$barang','$kriteria[$i]','$bobot[$i]');";
+            $query.="INSERT INTO bobot_kriteria (id_matkul,id_kriteria,bobot) VALUES ('$matkul','$kriteria[$i]','$bobot[$i]');";
         }
         $crud->multiAddData($cek,$query,$konek);
     break;
     case 'nilai'://tambah data nilai
-        $cek="SELECT id_supplier FROM nilai_supplier WHERE id_supplier='$supplier'";
+        $cek="SELECT id_mahasiswa FROM nilai_mahasiswa WHERE id_mahasiswa='$mahasiswa'";
         $query=null;
         for ($i=0;$i<count($nilai);$i++){
-            $query.="INSERT INTO nilai_supplier (id_supplier,id_jenisbarang,id_kriteria,nilai) VALUES ('$supplier','$barang','$kriteria[$i]','$nilai[$i]');";
+            $query.="INSERT INTO nilai_mahasiswa (id_mahasiswa,id_matkul,id_kriteria,nilai) VALUES ('$mahasiswa','$matkul','$kriteria[$i]','$nilai[$i]');";
         }
         $crud->multiAddData($cek,$query,$konek);
     break;

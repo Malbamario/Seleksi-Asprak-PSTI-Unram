@@ -6,18 +6,18 @@
     <input type="hidden" value="bobot" name="op">
     <div class="panel-middle">
         <div class="group-input">
-            <label for="barang">Jenis Mata Kuliah</label>
-            <select class="form-custom" required name="barang" id="barang">
-                <option selected disabled>--Pilih Jenis Mata Kuliah--</option>
+            <label for="matkul">Mata Kuliah</label>
+            <select class="form-custom" required name="matkul" id="matkul">
+                <option selected disabled>--Pilih Mata Kuliah--</option>
                 <?php
-                $query = "SELECT * FROM jenis_barang";
+                $query = "SELECT * FROM _matkul";
                 $execute = $konek->query($query);
                 if ($execute->num_rows > 0) {
                     while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
-                        echo "<option value=\"$data[id_jenisbarang]\">$data[namaBarang]</option>";
+                        echo "<option value=\"$data[id_matkul]\">$data[namaMatkul]</option>";
                     }
                 } else {
-                    echo "<option value=\"\">Belum ada Jenis Barang</option>";
+                    echo "<option value=\"\">Belum ada Matkul</option>";
                 }
                 ?>
             </select>
@@ -30,7 +30,7 @@
                 echo "<div class=\"group-input\">
                         <label for=\"$data[namaKriteria]\">$data[namaKriteria]</label>
                         <input type='hidden' value=$data[id_kriteria] name='kriteria[]'>
-                            <input class=\"form-custom\" type=\"text\" autocomplete=\"off\" required name=\"bobot[]\" id=\"$data[namaKriteria]\" placeholder=\"Nilai $data[namaKriteria]\">
+                        <input type=\"number\" class=\"form-custom\" step=\"0.01\" required name=\"bobot[]\" id=\"$data[namaKriteria]\" placeholder=\"Masukkan bobot untuk $data[namaKriteria]\" min=\"0\" max=\"1\">
                       </div>
                 ";
             }

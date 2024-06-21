@@ -108,17 +108,14 @@ $(document).ready(function () {
     $('button#btn-dropdown').on('click',function () {
         $(this).next('#panel-dropdown').toggleClass('show');
     })
+
     $('#isiNilai').load("./proses/proseslihat.php/?op=nilai");
-    $('#pilihNilai').change(function() {
-        var value =$(this).val();
-        var pilihBarang = $('#pilihBarang');
-        pilihBarang.val(value);
-        if(value>0) pilihBarang.attr("disabled", "disabled");
-        else pilihBarang.removeAttr("disabled");
-        isiMahasiswa($('#pilihMahasiswa'), pilihBarang, value);
-        $('#isiNilai').hide().load("./proses/proseslihat.php/?op=nilai&id="+value).fadeIn('400');
+
+    $('#pilihNilai').change(function(){
+        pilihNilai(this);
     });
-    $('#pilihBarang').change(function() {
+
+    $('#pilihMatkul').change(function() {
         var value =$(this).val();
         pilihMahasiswa = $('#pilihMahasiswa');
         isiMahasiswa(pilihMahasiswa, this, value);
@@ -133,10 +130,20 @@ $(document).ready(function () {
         }
     });
 
-    function isiMahasiswa(el, pilihBarang, value){
-        if(pilihBarang.val()<1) el.attr("disabled", "disabled");
+    function pilihNilai(el) {
+        var value = $(el).val();
+        var pilihMatkul = $('#pilihMatkul');
+        pilihMatkul.val(value);
+        if(value>0) pilihMatkul.attr("disabled", "disabled");
+        else pilihMatkul.removeAttr("disabled");
+        console.log(value);
+        isiMahasiswa($('#pilihMahasiswa'), pilihMatkul, value);
+        $('#isiNilai').hide().load("./proses/proseslihat.php/?op=nilai&id="+value).fadeIn('400');
+    }
+
+    function isiMahasiswa(el, pilihMatkul, value){
+        if($(pilihMatkul).val()==null) el.attr("disabled", "disabled");
         else el.removeAttr("disabled");
-        console.log(pilihBarang.val());
         el.hide().load("./proses/proseslihat.php/?op=mahasiswa&id="+value).fadeIn();
     }
 
@@ -149,4 +156,6 @@ $(document).ready(function () {
         }
     }
     $('button#btn-dropdown').attr('disabled', true);
+
+    pilihNilai($('#pilihNilai'));
 })

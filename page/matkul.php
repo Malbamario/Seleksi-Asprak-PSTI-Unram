@@ -1,9 +1,10 @@
+<!-- judul -->
 <div class="panel">
     <div class="panel-middle" id="judul">
-        <img src="asset/image/supplier.svg">
+        <img src="asset/image/matkul.svg">
         <div id="judul-text">
-            <h2 class="text-green">Mahasiswa</h2>
-            Halamanan Administrator Mahasiswa
+            <h2 class="text-green">Mata Kuliah</h2>
+            Halamanan Administrator Mata Kuliah
         </div>
     </div>
 </div>
@@ -13,9 +14,9 @@
         <div class="panel">
             <?php
             if (@htmlspecialchars($_GET['aksi']) == 'ubah') {
-                include 'ubahsupplier.php';
+                include 'ubahmatkul.php';
             } else {
-                include 'tambahsupplier.php';
+                include 'tambahmatkul.php';
             }
             ?>
         </div>
@@ -37,7 +38,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            $query = "SELECT * FROM supplier";
+                            $query = "SELECT * FROM _matkul";
                             $execute = $konek->query($query);
                             if ($execute->num_rows > 0) {
                                 $no = 1;
@@ -45,13 +46,12 @@
                                     echo "
                                 <tr id='data'>
                                     <td>$no</td>
-                                    <td>$data[namaSupplier]</td>
+                                    <td>$data[namaMatkul]</td>
                                     <td>
                                     <div class='norebuttom'>
-                                    <a class=\"btn btn-light-green\" href='./?page=supplier&aksi=ubah&id=" . $data['id_supplier'] . "'><i class='fa fa-pencil-alt'></i></a>
-                                    <a class=\"btn btn-yellow\" data-a=" . $data['namaSupplier'] . " id='hapus' href='./proses/proseshapus.php/?op=supplier&id=" . $data['id_supplier'] . "'><i class='fa fa-trash-alt'></i></a>
-                                    </div></td>
-                                </tr>";
+                                    <a class=\"btn btn-light-green\" href='./?page=matkul&aksi=ubah&id=" . $data['id_matkul'] . "'><i class='fa fa-pencil-alt'></i></a>
+                                    <a class=\"btn btn-yellow\" data-a=" . $data['namaMatkul'] . " id='hapus' href='./proses/proseshapus.php/?op=matkul&id=" . $data['id_matkul'] . "'><i class='fa fa-trash-alt'></i></a></td>
+                                </div></tr>";
                                     $no++;
                                 }
                             } else {

@@ -17,11 +17,11 @@ require './connect.php';
         <div class="panel">
             <?php
             if (@htmlspecialchars($_GET['aksi']) == 'ubah') {
-                include 'ubahbobot2.php';
+                include 'ubahbobot.php';
             } elseif (@htmlspecialchars($_GET['aksi']) == 'lihat') {
                 include 'lihatbobot.php';
             } else {
-                include 'tambahbobot2.php';
+                include 'tambahbobot.php';
             }
             ?>
         </div>
@@ -43,7 +43,7 @@ require './connect.php';
                         </thead>
                         <tbody>
                             <?php
-                            $query = "SELECT bobot_kriteria.id_jenisbarang AS idbarangbobot,jenis_barang.namaBarang AS namaBarang FROM bobot_kriteria INNER JOIN jenis_barang WHERE bobot_kriteria.id_jenisbarang=jenis_barang.id_jenisbarang GROUP BY idbarangbobot ORDER BY idbarangbobot ASC";
+                            $query = "SELECT bobot_kriteria.id_matkul AS idmatkulbobot,_matkul.namaMatkul AS namaMatkul FROM bobot_kriteria INNER JOIN _matkul WHERE bobot_kriteria.id_matkul=_matkul.id_matkul GROUP BY idmatkulbobot ORDER BY idmatkulbobot ASC";
                             $execute = $konek->query($query);
                             if ($execute->num_rows > 0) {
                                 $no = 1;
@@ -51,12 +51,12 @@ require './connect.php';
                                     echo "
                                 <tr id='data'>
                                     <td>$no</td>
-                                    <td>$data[namaBarang]</td>
+                                    <td>$data[namaMatkul]</td>
                                     <td>
                                     <div class='norebuttom'>
-                                    <a class=\"btn btn-green\" href='./?page=bobot&aksi=lihat&id=" . $data['idbarangbobot'] . "'><i class='fa fa-eye'></i></a>
-                                    <a class=\"btn btn-light-green\" href='./?page=bobot&aksi=ubah&id=" . $data['idbarangbobot'] . "'><i class='fa fa-pencil-alt'></i></a>
-                                    <a class=\"btn btn-yellow\" data-a=" . $data['namaBarang'] . " id='hapus' href='./proses/proseshapus.php/?op=bobot&id=" . $data['idbarangbobot'] . "'><i class='fa fa-trash-alt'></i></a></td>
+                                    <a class=\"btn btn-green\" href='./?page=bobot&aksi=lihat&id=" . $data['idmatkulbobot'] . "'><i class='fa fa-eye'></i></a>
+                                    <a class=\"btn btn-light-green\" href='./?page=bobot&aksi=ubah&id=" . $data['idmatkulbobot'] . "'><i class='fa fa-pencil-alt'></i></a>
+                                    <a class=\"btn btn-yellow\" data-a=" . $data['namaMatkul'] . " id='hapus' href='./proses/proseshapus.php/?op=bobot&id=" . $data['idmatkulbobot'] . "'><i class='fa fa-trash-alt'></i></a></td>
                                 </div></tr>";
                                     $no++;
                                 }

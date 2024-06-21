@@ -10,12 +10,12 @@ if ($_SERVER['REQUEST_METHOD']=='GET') {
 }
 $crud=new crud();
 switch ($op){
-    case 'barang':
-        $query="DELETE FROM jenis_barang WHERE id_jenisbarang='$id'";
+    case 'matkul':
+        $query="DELETE FROM _matkul WHERE id_matkul='$id'";
         $crud->delete($query,$konek);
         break;
-    case 'supplier':
-        $query="DELETE FROM supplier WHERE id_supplier='$id'";
+    case 'mahasiswa':
+        $query="DELETE FROM mahasiswa WHERE id_mahasiswa='$id'";
         $crud->delete($query,$konek);
         break;
     case 'kriteria':
@@ -23,11 +23,11 @@ switch ($op){
         $crud->delete($query,$konek);
         break;
     case 'bobot':
-        $query="DELETE FROM bobot_kriteria WHERE id_jenisbarang='$id'";
+        $query="DELETE FROM bobot_kriteria WHERE id_matkul='$id'";
         $crud->delete($query,$konek);
         break;
     case 'nilai':
-        $query="DELETE FROM nilai_supplier WHERE id_supplier='$id'";
+        $query="DELETE FROM nilai_mahasiswa WHERE id_mahasiswa='$id'";
         $crud->delete($query,$konek);
         break;
 }

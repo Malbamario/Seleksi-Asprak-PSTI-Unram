@@ -1,8 +1,16 @@
 <?php
 require __DIR__.'/class/vendor/autoload.php';
+require 'connect.php';
 use Dompdf\Dompdf;
 
 session_start();
+$cookiePilih=@$_COOKIE['pilih'];
+$query="SELECT*FROM _matkul WHERE id_matkul=$cookiePilih";
+$execute=$konek->query($query);
+$matkul="";
+while ($data=$execute->fetch_array(MYSQLI_ASSOC)){
+    $matkul = $data['namaMatkul'];
+}
 ob_start();
 ?>
 <!DOCTYPE html>
@@ -22,13 +30,17 @@ ob_start();
         }
         #header{
             width: 100%;
-            padding: 0 0 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin-bottom: 10px;
-            border-bottom:solid 2px black;
             text-align: center;
         }
-        .text-underline{
-            text-decoration: underline;
+        #logofakultas img{
+            height: 80px;
+        }
+        #isi{
+            margin-left: 5%;
         }
         .text-center{
             text-align: center;
@@ -57,11 +69,26 @@ table {
     </head>
     <body>
     <div id="header">
-        <h4>Sistem Pendukung Keputusan Pemilihan Supplier</h4>
-        <h2>CV. BIMANTARA</h2>
+        <div id="logofakultas">
+            <img src="https://sia.unram.ac.id/assets/images/unram.jpg">
+        </div>
+        <div id="isi" align="center">
+            <b>
+                <span>
+                    KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI<br>
+                    UNIVERSITAS MATARAM
+                </span><br>
+                <h4>FAKULTAS TEKNIK</h4>
+            </b>
+            <small>
+                <i>Jln. Majapahit No. 62 Mataram NTB, phone: (0370) 631712 web: if.unram.ac.id</i>
+            </small>
+        </div>
     </div>
+    <div style="clear:both"></div>
+    <hr style="margin: 10px 0 10px 0;">
     <div id="judul" class="text-center">
-        <p class="text-underline">Hasil Perhitungan</p>
+        <p>Hasil Perhitungan Seleksi Asisten Praktikum <?= $matkul ?></p>
     </div>
     <div id="body">
         <?php
@@ -75,7 +102,7 @@ table {
 </html>
 <?php
 $content=ob_get_clean();
-// print_r(gettype($content));
+print_r(gettype($content));
 $pdf = new Dompdf();
 $pdf->loadHtml($content);
 $pdf->setPaper('A4');

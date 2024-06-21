@@ -1,9 +1,9 @@
 <?php
 $a=htmlspecialchars(@$_GET['a']);
 $b=htmlspecialchars(@$_GET['b']);
-$querylihat="SELECT id_nilaisupplier,kriteria.namaKriteria AS namaKriteria,nilai FROM nilai_supplier
+$querylihat="SELECT id_nilaimahasiswa,kriteria.namaKriteria AS namaKriteria,nilai FROM nilai_mahasiswa
 INNER JOIN kriteria USING (id_kriteria)
-WHERE nilai_supplier.id_supplier='$a' AND nilai_supplier.id_jenisbarang='$b'";
+WHERE nilai_mahasiswa.id_mahasiswa='$a' AND nilai_mahasiswa.id_matkul='$b'";
 $execute2=$konek->query($querylihat);
 if ($execute2->num_rows == 0){
     header('location:./?page=penilaian');
@@ -17,24 +17,24 @@ if ($execute2->num_rows == 0){
     <div class="panel-middle">
         <div class="group-input">
             <?php
-            $query="SELECT namaSupplier FROM supplier WHERE id_supplier='$a'";
+            $query="SELECT namaMahasiswa FROM mahasiswa WHERE id_mahasiswa='$a'";
             $execute=$konek->query($query);
             $data=$execute->fetch_array(MYSQLI_ASSOC);
             ?>
             <div class="group-input">
-                <label for="jenisbarang">Nama Supplier</label>
-                <input class="form-custom" value="<?php echo $data['namaSupplier'];?>" disabled type="text" autocomplete="off" required name="jenisbarang" id="jenisbarang">
+                <label for="matkul">Nama Mahasiswa</label>
+                <input class="form-custom" value="<?php echo $data['namaMahasiswa'];?>" disabled type="text" autocomplete="off" required name="matkul" id="matkul">
             </div>
         </div>
         <div class="group-input">
             <?php
-            $query="SELECT namaBarang FROM jenis_barang WHERE id_jenisbarang='$b'";
+            $query="SELECT namaMatkul FROM _matkul WHERE id_matkul='$b'";
             $execute=$konek->query($query);
             $data=$execute->fetch_array(MYSQLI_ASSOC);
             ?>
             <div class="group-input">
-                <label for="jenisbarang">Jenis Barang</label>
-                <input class="form-custom" value="<?php echo $data['namaBarang'];?>" disabled type="text" autocomplete="off" required name="jenisbarang" id="jenisbarang" placeholder="jenisbarang">
+                <label for="matkul">Matkul</label>
+                <input class="form-custom" value="<?php echo $data['namaMatkul'];?>" disabled type="text" autocomplete="off" required name="matkul" id="matkul" placeholder="matkul">
             </div>
         </div>
         <?php

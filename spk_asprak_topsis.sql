@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bobot_kriteria` (
   `id_bobotkriteria` int(3) NOT NULL,
-  `id_jenisbarang` int(3) NOT NULL,
+  `id_matkul` int(3) NOT NULL,
   `id_kriteria` int(3) NOT NULL,
   `bobot` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -38,7 +38,7 @@ CREATE TABLE `bobot_kriteria` (
 -- Dumping data for table `bobot_kriteria`
 --
 
-INSERT INTO `bobot_kriteria` (`id_bobotkriteria`, `id_jenisbarang`, `id_kriteria`, `bobot`) VALUES
+INSERT INTO `bobot_kriteria` (`id_bobotkriteria`, `id_matkul`, `id_kriteria`, `bobot`) VALUES
 (7, 1, 1, 0.5),
 (8, 1, 2, 1),
 (9, 1, 3, 0.75),
@@ -54,8 +54,8 @@ INSERT INTO `bobot_kriteria` (`id_bobotkriteria`, `id_jenisbarang`, `id_kriteria
 
 CREATE TABLE `hasil` (
   `id_hasil` int(3) NOT NULL,
-  `id_jenisbarang` int(3) NOT NULL,
-  `id_supplier` int(3) NOT NULL,
+  `id_matkul` int(3) NOT NULL,
+  `id_mahasiswa` int(3) NOT NULL,
   `hasil` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -63,7 +63,7 @@ CREATE TABLE `hasil` (
 -- Dumping data for table `hasil`
 --
 
-INSERT INTO `hasil` (`id_hasil`, `id_jenisbarang`, `id_supplier`, `hasil`) VALUES
+INSERT INTO `hasil` (`id_hasil`, `id_matkul`, `id_mahasiswa`, `hasil`) VALUES
 (1, 1, 6, 0.145018),
 (2, 1, 7, 0.217691),
 (3, 1, 8, 0.877838);
@@ -71,19 +71,19 @@ INSERT INTO `hasil` (`id_hasil`, `id_jenisbarang`, `id_supplier`, `hasil`) VALUE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jenis_barang`
+-- Table structure for table `_matkul`
 --
 
-CREATE TABLE `jenis_barang` (
-  `id_jenisbarang` int(3) NOT NULL,
-  `namaBarang` varchar(30) NOT NULL
+CREATE TABLE `_matkul` (
+  `id_matkul` int(3) NOT NULL,
+  `namaMatkul` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `jenis_barang`
+-- Dumping data for table `_matkul`
 --
 
-INSERT INTO `jenis_barang` (`id_jenisbarang`, `namaBarang`) VALUES
+INSERT INTO `_matkul` (`id_matkul`, `namaMatkul`) VALUES
 (1, 'Pompa j'),
 (2, 'Sisdig');
 
@@ -108,28 +108,28 @@ INSERT INTO `kriteria` (`id_kriteria`, `namaKriteria`, `sifat`) VALUES
 (2, 'Tingkat Diskon', 'Benefit'),
 (3, 'Pelayanan', 'Benefit'),
 (4, 'garansi', 'Benefit'),
-(5, 'keaslian barang', 'Benefit'),
+(5, 'keaslian matkul', 'Benefit'),
 (6, 'tempo pebayaran', 'Benefit');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nilai_supplier`
+-- Table structure for table `nilai_mahasiswa`
 --
 
-CREATE TABLE `nilai_supplier` (
-  `id_nilaisupplier` int(3) NOT NULL,
-  `id_supplier` int(3) NOT NULL,
-  `id_jenisbarang` int(3) NOT NULL,
+CREATE TABLE `nilai_mahasiswa` (
+  `id_nilaimahasiswa` int(3) NOT NULL,
+  `id_mahasiswa` int(3) NOT NULL,
+  `id_matkul` int(3) NOT NULL,
   `id_kriteria` int(3) NOT NULL,
   `nilai` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `nilai_supplier`
+-- Dumping data for table `nilai_mahasiswa`
 --
 
-INSERT INTO `nilai_supplier` (`id_nilaisupplier`, `id_supplier`, `id_jenisbarang`, `id_kriteria`, `nilai`) VALUES
+INSERT INTO `nilai_mahasiswa` (`id_nilaimahasiswa`, `id_mahasiswa`, `id_matkul`, `id_kriteria`, `nilai`) VALUES
 (19, 6, 1, 1, 23),
 (20, 6, 1, 2, 6),
 (21, 6, 1, 3, 13),
@@ -152,19 +152,19 @@ INSERT INTO `nilai_supplier` (`id_nilaisupplier`, `id_supplier`, `id_jenisbarang
 -- --------------------------------------------------------
 
 --
--- Table structure for table `supplier`
+-- Table structure for table `mahasiswa`
 --
 
-CREATE TABLE `supplier` (
-  `id_supplier` int(3) NOT NULL,
-  `namaSupplier` varchar(30) NOT NULL
+CREATE TABLE `mahasiswa` (
+  `id_mahasiswa` int(3) NOT NULL,
+  `namaMahasiswa` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `supplier`
+-- Dumping data for table `mahasiswa`
 --
 
-INSERT INTO `supplier` (`id_supplier`, `namaSupplier`) VALUES
+INSERT INTO `mahasiswa` (`id_mahasiswa`, `namaMahasiswa`) VALUES
 (6, 'CV. A'),
 (7, 'CV. B'),
 (8, 'CV. C');
@@ -197,7 +197,7 @@ INSERT INTO `user` (`Id_admin`, `username`, `password`) VALUES
 --
 ALTER TABLE `bobot_kriteria`
   ADD PRIMARY KEY (`id_bobotkriteria`),
-  ADD KEY `id_jenisbarang` (`id_jenisbarang`),
+  ADD KEY `id_matkul` (`id_matkul`),
   ADD KEY `id_kriteria` (`id_kriteria`);
 
 --
@@ -205,14 +205,14 @@ ALTER TABLE `bobot_kriteria`
 --
 ALTER TABLE `hasil`
   ADD PRIMARY KEY (`id_hasil`),
-  ADD KEY `id_jenisbarang` (`id_jenisbarang`),
-  ADD KEY `id_supplier` (`id_supplier`);
+  ADD KEY `id_matkul` (`id_matkul`),
+  ADD KEY `id_mahasiswa` (`id_mahasiswa`);
 
 --
--- Indexes for table `jenis_barang`
+-- Indexes for table `_matkul`
 --
-ALTER TABLE `jenis_barang`
-  ADD PRIMARY KEY (`id_jenisbarang`);
+ALTER TABLE `_matkul`
+  ADD PRIMARY KEY (`id_matkul`);
 
 --
 -- Indexes for table `kriteria`
@@ -221,19 +221,19 @@ ALTER TABLE `kriteria`
   ADD PRIMARY KEY (`id_kriteria`);
 
 --
--- Indexes for table `nilai_supplier`
+-- Indexes for table `nilai_mahasiswa`
 --
-ALTER TABLE `nilai_supplier`
-  ADD PRIMARY KEY (`id_nilaisupplier`),
-  ADD KEY `id_supplier` (`id_supplier`),
-  ADD KEY `id_jenisbarang` (`id_jenisbarang`),
+ALTER TABLE `nilai_mahasiswa`
+  ADD PRIMARY KEY (`id_nilaimahasiswa`),
+  ADD KEY `id_mahasiswa` (`id_mahasiswa`),
+  ADD KEY `id_matkul` (`id_matkul`),
   ADD KEY `id_kriteria` (`id_kriteria`);
 
 --
--- Indexes for table `supplier`
+-- Indexes for table `mahasiswa`
 --
-ALTER TABLE `supplier`
-  ADD PRIMARY KEY (`id_supplier`);
+ALTER TABLE `mahasiswa`
+  ADD PRIMARY KEY (`id_mahasiswa`);
 
 --
 -- Indexes for table `user`
@@ -258,10 +258,10 @@ ALTER TABLE `hasil`
   MODIFY `id_hasil` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `jenis_barang`
+-- AUTO_INCREMENT for table `_matkul`
 --
-ALTER TABLE `jenis_barang`
-  MODIFY `id_jenisbarang` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `_matkul`
+  MODIFY `id_matkul` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
@@ -270,16 +270,16 @@ ALTER TABLE `kriteria`
   MODIFY `id_kriteria` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `nilai_supplier`
+-- AUTO_INCREMENT for table `nilai_mahasiswa`
 --
-ALTER TABLE `nilai_supplier`
-  MODIFY `id_nilaisupplier` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+ALTER TABLE `nilai_mahasiswa`
+  MODIFY `id_nilaimahasiswa` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
--- AUTO_INCREMENT for table `supplier`
+-- AUTO_INCREMENT for table `mahasiswa`
 --
-ALTER TABLE `supplier`
-  MODIFY `id_supplier` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+ALTER TABLE `mahasiswa`
+  MODIFY `id_mahasiswa` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -295,23 +295,23 @@ ALTER TABLE `user`
 -- Constraints for table `bobot_kriteria`
 --
 ALTER TABLE `bobot_kriteria`
-  ADD CONSTRAINT `bobot_kriteria_ibfk_1` FOREIGN KEY (`id_jenisbarang`) REFERENCES `jenis_barang` (`id_jenisbarang`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `bobot_kriteria_ibfk_1` FOREIGN KEY (`id_matkul`) REFERENCES `_matkul` (`id_matkul`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bobot_kriteria_ibfk_2` FOREIGN KEY (`id_kriteria`) REFERENCES `kriteria` (`id_kriteria`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `hasil`
 --
 ALTER TABLE `hasil`
-  ADD CONSTRAINT `hasil_ibfk_1` FOREIGN KEY (`id_jenisbarang`) REFERENCES `jenis_barang` (`id_jenisbarang`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `hasil_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `hasil_ibfk_1` FOREIGN KEY (`id_matkul`) REFERENCES `_matkul` (`id_matkul`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `hasil_ibfk_2` FOREIGN KEY (`id_mahasiswa`) REFERENCES `mahasiswa` (`id_mahasiswa`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `nilai_supplier`
+-- Constraints for table `nilai_mahasiswa`
 --
-ALTER TABLE `nilai_supplier`
-  ADD CONSTRAINT `nilai_supplier_ibfk_1` FOREIGN KEY (`id_jenisbarang`) REFERENCES `jenis_barang` (`id_jenisbarang`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `nilai_supplier_ibfk_2` FOREIGN KEY (`id_kriteria`) REFERENCES `kriteria` (`id_kriteria`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `nilai_supplier_ibfk_3` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `nilai_mahasiswa`
+  ADD CONSTRAINT `nilai_mahasiswa_ibfk_1` FOREIGN KEY (`id_matkul`) REFERENCES `_matkul` (`id_matkul`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `nilai_mahasiswa_ibfk_2` FOREIGN KEY (`id_kriteria`) REFERENCES `kriteria` (`id_kriteria`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `nilai_mahasiswa_ibfk_3` FOREIGN KEY (`id_mahasiswa`) REFERENCES `mahasiswa` (`id_mahasiswa`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -9,21 +9,21 @@ if ($_SERVER['REQUEST_METHOD']=='GET') {
     $id=@$_POST['id'];
     $op=@$_POST['op'];
 }
-$barang=@$_POST['barang'];
-$supplier=@$_POST['supplier'];
+$matkul=@$_POST['matkul'];
+$mahasiswa=@$_POST['mahasiswa'];
 $kriteria=@$_POST['kriteria'];
 $sifat=@$_POST['sifat'];
 $nilai=@$_POST['nilai'];
 $keterangan=@$_POST['keterangan'];
 $bobot=@$_POST['bobot'];
 switch ($op){
-    case 'barang':
-        $query="UPDATE jenis_barang SET namaBarang='$barang' WHERE id_jenisbarang='$id'";
-        $crud->update($query,$konek,'./?page=barang');
+    case 'matkul':
+        $query="UPDATE _matkul SET namaMatkul='$matkul' WHERE id_matkul='$id'";
+        $crud->update($query,$konek,'./?page=matkul');
         break;
-    case 'supplier':
-        $query="UPDATE supplier SET namaSupplier='$supplier' WHERE id_supplier='$id'";
-        $crud->update($query,$konek,'./?page=supplier');
+    case 'mahasiswa':
+        $query="UPDATE mahasiswa SET namaMahasiswa='$mahasiswa' WHERE id_mahasiswa='$id'";
+        $crud->update($query,$konek,'./?page=mahasiswa');
         break;
     case 'kriteria':
         $cek="SELECT namaKriteria FROM kriteria WHERE namaKriteria='$kriteria'";
@@ -40,7 +40,7 @@ switch ($op){
     case 'nilai':
         $query=null;
         for ($i=0;$i<count($id);$i++){
-            $query.="UPDATE nilai_supplier SET nilai='$nilai[$i]' WHERE id_nilaisupplier='$id[$i]';";
+            $query.="UPDATE nilai_mahasiswa SET nilai='$nilai[$i]' WHERE id_nilaimahasiswa='$id[$i]';";
         }
         $crud->update($query,$konek,'./?page=penilaian');
     break;

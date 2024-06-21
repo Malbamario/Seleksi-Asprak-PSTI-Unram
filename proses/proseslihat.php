@@ -12,11 +12,11 @@ $crud=new crud();
 switch ($op){
     case 'nilai':
         if (!empty($id)) {
-            $where="WHERE nilai_supplier.id_jenisbarang='$id'";
+            $where="WHERE nilai_mahasiswa.id_matkul='$id'";
         }else{
             $where=null;
         }
-        $query="SELECT id_nilaisupplier,id_supplier,supplier.namaSupplier AS namaSupplier,jenis_barang.id_jenisbarang AS id_jenisbarang,jenis_barang.namaBarang AS namaBarang FROM nilai_supplier INNER JOIN supplier USING(id_supplier) INNER JOIN jenis_barang USING (id_jenisbarang) $where GROUP BY id_supplier ORDER BY id_jenisbarang,id_supplier ASC";
+        $query="SELECT id_nilaimahasiswa,id_mahasiswa,mahasiswa.namaMahasiswa AS namaMahasiswa,_matkul.id_matkul AS id_matkul,_matkul.namaMatkul AS namaMatkul FROM nilai_mahasiswa INNER JOIN mahasiswa USING(id_mahasiswa) INNER JOIN _matkul USING (id_matkul) $where GROUP BY id_mahasiswa ORDER BY id_matkul,id_mahasiswa ASC";
         $execute=$konek->query($query);
         if ($execute->num_rows > 0){
             $no=1;
@@ -24,13 +24,13 @@ switch ($op){
                echo"
                 <tr id='data'>
                     <td>$no</td>
-                    <td>$data[namaBarang]</td>
-                    <td>$data[namaSupplier]</td>
+                    <td>$data[namaMatkul]</td>
+                    <td>$data[namaMahasiswa]</td>
                     <td>
                     <div class='norebuttom'>
-                    <a class=\"btn btn-green\" href=\"./?page=penilaian&aksi=lihat&a=$data[id_supplier]&b=$data[id_jenisbarang]\"><i class='fa fa-eye'></i></a>
-                    <a class=\"btn btn-light-green\" href=\"./?page=penilaian&aksi=ubah&a=$data[id_supplier]&b=$data[id_jenisbarang]\"><i class='fa fa-pencil-alt'></i></a>
-                    <a class=\"btn btn-yellow\" data-a=\"$data[namaBarang] - $data[namaSupplier]\" id='hapus' href='./proses/proseshapus.php/?op=nilai&id=".$data['id_supplier']."'><i class='fa fa-trash-alt'></i></a></td>
+                    <a class=\"btn btn-green\" href=\"./?page=penilaian&aksi=lihat&a=$data[id_mahasiswa]&b=$data[id_matkul]\"><i class='fa fa-eye'></i></a>
+                    <a class=\"btn btn-light-green\" href=\"./?page=penilaian&aksi=ubah&a=$data[id_mahasiswa]&b=$data[id_matkul]\"><i class='fa fa-pencil-alt'></i></a>
+                    <a class=\"btn btn-yellow\" data-a=\"$data[namaMatkul] - $data[namaMahasiswa]\" id='hapus' href='./proses/proseshapus.php/?op=nilai&id=".$data['id_mahasiswa']."'><i class='fa fa-trash-alt'></i></a></td>
                 </div></tr>";
                 $no++;
             }
@@ -39,25 +39,25 @@ switch ($op){
         }
     break;
     case 'mahasiswa':
-        $query = "SELECT distinct id_supplier FROM nilai_supplier WHERE id_jenisbarang=$id";
+        $query = "SELECT distinct id_mahasiswa FROM nilai_mahasiswa WHERE id_matkul=$id";
         $execute = $konek->query($query);
         echo "<option value='0' selected disabled>--Pilih Mahasiswa--</option>";
         if ($execute->num_rows > 0) {
-            $query = "SELECT distinct supplier.id_supplier, supplier.namaSupplier FROM supplier LEFT JOIN nilai_supplier ON supplier.id_supplier=nilai_supplier.id_supplier WHERE id_jenisbarang=$id AND nilai_supplier.id_supplier IS NULL";
+            $query = "SELECT distinct mahasiswa.id_mahasiswa, mahasiswa.namaMahasiswa FROM mahasiswa LEFT JOIN nilai_mahasiswa ON mahasiswa.id_mahasiswa=nilai_mahasiswa.id_mahasiswa WHERE id_matkul=$id AND nilai_mahasiswa.id_mahasiswa IS NULL";
             $execute = $konek->query($query);
             if ($execute->num_rows > 0) {
                 while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
-                    echo "<option value=\"$data[id_supplier]\">$data[namaSupplier]</option>";
+                    echo "<option value=\"$data[id_mahasiswa]\">$data[namaMahasiswa]</option>";
                 }
             } else {
                 echo "<option disabled value=\"\">Semua Mahasiswa Sudah Ditambahkan</option>";
             }
         }else {
-            $query = "SELECT * FROM supplier";
+            $query = "SELECT * FROM mahasiswa";
             $execute = $konek->query($query);
             if ($execute->num_rows > 0){
                 while ($data = $execute->fetch_array(MYSQLI_ASSOC)) {
-                    echo "<option value=\"$data[id_supplier]\">$data[namaSupplier]</option>";
+                    echo "<option value=\"$data[id_mahasiswa]\">$data[namaMahasiswa]</option>";
                 }
             } else {
                 echo "<option disabled value=\"\">Belum ada Mahasiswa</option>";

@@ -5,12 +5,12 @@ $cookiePilih=@$_COOKIE['pilih'];
 //$cookiePilih=null;
 if (isset($cookiePilih) && !empty($cookiePilih)){
 /***************awal set variabel************/
-    $valueMinMax=array(); $kriteriaArray=array(); $supplierArray=array(); $forminmax=array(); $simpanNormalisasi=array(); $bobotArray=array();
+    $valueMinMax=array(); $kriteriaArray=array(); $mahasiswaArray=array(); $forminmax=array(); $simpanNormalisasi=array(); $bobotArray=array();
     $querykriteria="SELECT namaKriteria FROM kriteria";//query tabel kriteria
     //query get data alternative
-    $queryAlternative="SELECT supplier.namaSupplier AS namaSupplier,id_supplier FROM nilai_supplier INNER JOIN supplier USING(id_supplier) WHERE id_jenisbarang='$cookiePilih' GROUP BY id_supplier ";
+    $queryAlternative="SELECT mahasiswa.namaMahasiswa AS namaMahasiswa,id_mahasiswa FROM nilai_mahasiswa INNER JOIN mahasiswa USING(id_mahasiswa) WHERE id_matkul='$cookiePilih' GROUP BY id_mahasiswa ";
     //query get data bobot
-    $queryBobot="SELECT id_kriteria,bobot FROM bobot_kriteria WHERE id_jenisbarang='$cookiePilih'";
+    $queryBobot="SELECT id_kriteria,bobot FROM bobot_kriteria WHERE id_matkul='$cookiePilih'";
     //query get data nilai
     $indexArray=0;//variabel index array
 /***************akhir set variabel************/
@@ -35,18 +35,18 @@ $executeGetAlternative=$konek->query($queryAlternative);
 $colspan=$executeQueryTabel->num_rows+1;
 if ($executeGetAlternative->num_rows > 0){
     while ($dataAlternative=$executeGetAlternative->fetch_array(MYSQLI_ASSOC)){
-        echo"<tr id='data'><td>$dataAlternative[namaSupplier]</td>";
-        $queryGetNilai="SELECT nilai_kriteria.nilai AS nilai,kriteria.sifat AS sifat,nilai_supplier.id_kriteria AS id_kriteria FROM nilai_supplier JOIN kriteria ON kriteria.id_kriteria=nilai_supplier.id_kriteria JOIN nilai_kriteria ON nilai_kriteria.id_nilaikriteria=nilai_supplier.id_nilaikriteria WHERE (id_jenisbarang='$cookiePilih' AND id_supplier='$dataAlternative[id_supplier]')";
+        echo"<tr id='data'><td>$dataAlternative[namaMahasiswa]</td>";
+        $queryGetNilai="SELECT nilai_kriteria.nilai AS nilai,kriteria.sifat AS sifat,nilai_mahasiswa.id_kriteria AS id_kriteria FROM nilai_mahasiswa JOIN kriteria ON kriteria.id_kriteria=nilai_mahasiswa.id_kriteria JOIN nilai_kriteria ON nilai_kriteria.id_nilaikriteria=nilai_mahasiswa.id_nilaikriteria WHERE (id_matkul='$cookiePilih' AND id_mahasiswa='$dataAlternative[id_mahasiswa]')";
         $executeNilai=$konek->query($queryGetNilai);
         $i=0;
         while ($dataNilai=$executeNilai->fetch_array(MYSQLI_ASSOC)){
             echo "<td>$dataNilai[nilai]</td>";
-            $nilaiSupplier[$indexArray][$i]=array("sifat"=>$dataNilai['sifat'],"id_kriteria"=>$dataNilai['id_kriteria']);
+            $nilaiMahasiswa[$indexArray][$i]=array("sifat"=>$dataNilai['sifat'],"id_kriteria"=>$dataNilai['id_kriteria']);
             $forminmax[$dataNilai['id_kriteria']][$indexArray]=$dataNilai['nilai'];
             $i++;
         }
             echo "</tr>";
-            $supplierArray[$indexArray]=["namaSupplier"=>$dataAlternative['namaSupplier'],"id_supplier"=>$dataAlternative['id_supplier']];
+            $mahasiswaArray[$indexArray]=["namaMahasiswa"=>$dataAlternative['namaMahasiswa'],"id_mahasiswa"=>$dataAlternative['id_mahasiswa']];
             $indexArray++;
     }
 }else{
@@ -62,14 +62,14 @@ foreach ($kriteriaArray as $namaKriteria) {
 echo "</tr>";
 /////////////////////////////////////////////////////////////////akhir set header table normalisasi
 /******awal isi table normalisasi****/
-if (!empty($supplierArray)){
+if (!empty($mahasiswaArray)){
     $simpanrangking=array();
     if (!empty($bobotArray)) {
-        for ($j=0; $j< count($supplierArray); $j++) { 
-            echo "<tr id='data'><td>".$supplierArray[$j]['namaSupplier']."</td>";
-                for ($k=0; $k<count($nilaiSupplier[$j]) ; $k++) {
-                    $idKriteria=$nilaiSupplier[$j][$k]['id_kriteria'];
-                    echo "<td>".$hasil=normalisasi($forminmax[$idKriteria][$j],$forminmax[$idKriteria],$nilaiSupplier[$j][$k]["sifat"])."</td>";
+        for ($j=0; $j< count($mahasiswaArray); $j++) { 
+            echo "<tr id='data'><td>".$mahasiswaArray[$j]['namaMahasiswa']."</td>";
+                for ($k=0; $k<count($nilaiMahasiswa[$j]) ; $k++) {
+                    $idKriteria=$nilaiMahasiswa[$j][$k]['id_kriteria'];
+                    echo "<td>".$hasil=normalisasi($forminmax[$idKriteria][$j],$forminmax[$idKriteria],$nilaiMahasiswa[$j][$k]["sifat"])."</td>";
                     $simpanrangking[$j][$k]=floatval($hasil)*$bobotArray[$idKriteria];
                 }
             echo"</tr>";
@@ -89,11 +89,11 @@ foreach ($kriteriaArray as $namaKriteria) {
 }
 /////////////////////////////////////////////////////////////////akhir set header table perangkingan
 /******awal isi table perangkingan****/
-if (!empty($supplierArray)){
+if (!empty($mahasiswaArray)){
     if (!empty($bobotArray)) {
-        for ($j=0; $j< count($supplierArray); $j++) {
+        for ($j=0; $j< count($mahasiswaArray); $j++) {
             $hasilakhir=0;
-            echo "<tr id='data'><td>".$supplierArray[$j]['namaSupplier']."</td>";
+            echo "<tr id='data'><td>".$mahasiswaArray[$j]['namaMahasiswa']."</td>";
                 for ($k=0; $k<count($simpanrangking[$j]) ; $k++) {
                     echo "<td>".$hasil=$simpanrangking[$j][$k]."</td>";
                     $hasilakhir+=floatval($hasil);
@@ -109,10 +109,10 @@ if (!empty($supplierArray)){
 }
 echo "</table>";
 /******akhir isi table perangkingan****/
-    $queryHasil="SELECT hasil.hasil AS hasil,jenis_barang.namaBarang,supplier.namaSupplier AS namaSupplier FROM hasil JOIN jenis_barang ON jenis_barang.id_jenisbarang=hasil.id_jenisbarang JOIN supplier ON supplier.id_supplier=hasil.id_supplier WHERE hasil.hasil=(SELECT MAX(hasil) FROM hasil WHERE id_jenisbarang='$cookiePilih')";
+    $queryHasil="SELECT hasil.hasil AS hasil,_matkul.namaMatkul,mahasiswa.namaMahasiswa AS namaMahasiswa FROM hasil JOIN _matkul ON _matkul.id_matkul=hasil.id_matkul JOIN mahasiswa ON mahasiswa.id_mahasiswa=hasil.id_mahasiswa WHERE hasil.hasil=(SELECT MAX(hasil) FROM hasil WHERE id_matkul='$cookiePilih')";
     $execute=$konek->query($queryHasil)->fetch_array(MYSQLI_ASSOC);
-    echo "<p>Jadi rekomendasi pemilihan supplier <i>$execute[namaBarang]</i> jatuh pada <i>$execute[namaSupplier]</i> dengan Nilai <b>".round($execute['hasil'],3)."</b></p>";
+    echo "<p>Jadi rekomendasi pemilihan mahasiswa <i>$execute[namaMatkul]</i> jatuh pada <i>$execute[namaMahasiswa]</i> dengan Nilai <b>".round($execute['hasil'],3)."</b></p>";
 echo "</div>";
 }else{
-    echo "<p class='text-center'><b>Pilih List Barang, untuk menampilkan hasil</b></p>";
+    echo "<p class='text-center'><b>Pilih List Matkul, untuk menampilkan hasil</b></p>";
 }
